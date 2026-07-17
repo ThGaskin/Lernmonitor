@@ -1,0 +1,490 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   charts.css — task bar widgets and grade/performance panels
+   ═══════════════════════════════════════════════════════════════════════════
+
+   Sections:
+     1. Lerngruppen task pills (.lg-bar-container / .lg-bar-task)
+     2. Status dropdown        (.lg-status-dropdown / .lg-status-option)
+     3. Leistungen panel       (.leistungen-* / .task-line-* / .pie-chart-*)
+*/
+
+
+/* ── 1. Lerngruppen task pills ──────────────────────────────────────────── */
+/* The pill-shaped task bars on the student and teacher dashboards.          */
+/* Colours are set via status classes; label colour via `color: inherit`.    */
+/* Dashboard-specific overrides (e.g. purple text) live in                  */
+/* student-dashboard.css / lehrer-dashboard.css.                             */
+
+/* Section headers above each task group */
+.lg-section-header {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.lg-section-header:first-child {
+    margin-top: 1.5rem;
+}
+
+/* Row of pills for one task-set */
+.lg-bar-container {
+    display: flex;
+    height: auto;
+    overflow: visible;
+    border: none;
+    cursor: pointer;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+/* Individual pill */
+.lg-bar-task {
+    height: 44px;
+    min-width: 3rem;
+    border-right: none;
+    border-radius: var(--border-radius-lg);
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    transition: opacity 0.15s, filter 0.15s;
+}
+
+.lg-bar-task:hover {
+    filter: brightness(0.92);
+}
+
+.lg-bar-task.lg-none:hover {
+    filter: none;
+    background: color-mix(in srgb, var(--c-purple) 18%, transparent);
+}
+
+/* Status colours — applied via JS based on the student's current status */
+.lg-bar-task.lg-none {
+    background: color-mix(in srgb, var(--c-purple) 10%, transparent);
+}
+
+.lg-bar-task.lg-in-progress {
+    background: var(--c-lightblue);
+    opacity: 1;
+}
+
+.lg-bar-task.lg-submitted {
+    background: var(--c-mint);
+    opacity: 1;
+}
+
+.lg-bar-task.lg-graded {
+    background: var(--c-green);
+    color: var(--c-white);
+    opacity: 1;
+}
+
+.lg-bar-task.lg-needs-help {
+    background: var(--c-orange);
+    opacity: 1;
+}
+
+.lg-bar-task.lg-partner {
+    background: var(--c-lavender);
+    color: var(--c-white);
+    opacity: 1;
+}
+
+/* Centred label inside each pill; inherits colour from .lg-bar-task */
+.lg-bar-task-label {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 85%;
+    pointer-events: none;
+    color: inherit;
+}
+
+/* When a dropdown is open: dim all other pills and task-sets */
+.lg-bars-active .lg-bar-task:not(.lg-bar-task--open) {
+    opacity: 0.2;
+    transition: opacity 0.15s;
+}
+
+.lg-bars-active .lg-bar-container:not(.lg-bar-container--has-open) {
+    border-color: rgba(204, 204, 204, 0.15);
+    transition: border-color 0.15s;
+}
+
+/* The pill that currently has its dropdown open */
+.lg-bar-container--has-open {
+    position: relative;
+    z-index: 100;
+    overflow: visible;
+    border-color: transparent;
+}
+
+.lg-bar-task--open {
+    outline: 3px solid white;
+    outline-offset: 3px;
+    opacity: 1 !important;
+    z-index: 1;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+
+/* ── 3. Status dropdown ─────────────────────────────────────────────────── */
+/* Panel shell and option base styles come from menus.css (.dropdown etc.).  */
+/* Task-specific content (header, points, locked note, colour tints) here.   */
+
+/* Width — wider than the default */
+.lg-status-dropdown {
+    min-width: 200px;
+}
+
+/* Header: task name */
+.lg-status-dropdown-title {
+    color: var(--c-darkgrey);
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Subheader: max points for this task-set */
+.lg-status-dropdown-points {
+    color: var(--c-mediumgrey);
+}
+
+/* Shown instead of buttons when the task has already been submitted */
+.lg-status-locked-note {
+    color: var(--c-mediumgrey);
+    margin-top: 0;
+}
+
+/* Active option buttons: tinted to match the corresponding task-pill colour */
+
+.lg-status-option--active.lg-status-option--s1 {
+    background: var(--c-lightblue);
+    border-color: var(--c-lightblue);
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.lg-status-option--active.lg-status-option--s2 {
+    background: var(--c-mint);
+    border-color: var(--c-mint);
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.lg-status-option--active.lg-status-option--s3 {
+    background: var(--c-orange);
+    border-color: var(--c-orange);
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.lg-status-option--active.lg-status-option--s4 {
+    background: var(--c-lavender);
+    border-color: var(--c-lavender);
+    color: var(--c-white);
+}
+
+
+/* ── 4. Grading scale widget ────────────────────────────────────────────── */
+/* Interactive bar showing grade thresholds. Used on both dashboards.        */
+/* .lg-gs-empty colour is set per-dashboard in each dashboard's CSS.         */
+/* .lg-gs-section and .lg-gs-threshold-label are always white (on coloured   */
+/* grade backgrounds); teacher dashboard re-asserts this with !important.    */
+
+.lg-gs-widget {
+    margin: 10px 0 6px;
+}
+
+.lg-gs-labels {
+    position: relative;
+    height: 18px;
+    margin-bottom: 3px;
+}
+
+.lg-gs-threshold-label {
+    color: var(--c-white);
+    position: absolute;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    pointer-events: none;
+    top: 1px;
+}
+
+.lg-gs-threshold-label--interactive {
+    pointer-events: auto;
+    cursor: text;
+}
+
+.lg-gs-threshold-input {
+    width: 3.2em;
+    font: inherit;
+    line-height: 1;
+    color: inherit;
+    background: color-mix(in srgb, var(--c-navy) 40%, transparent);
+    border: none;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
+    border-radius: 3px;
+    text-align: center;
+    padding: 0 2px;
+    vertical-align: top;
+    -moz-appearance: textfield;
+}
+.lg-gs-threshold-input::-webkit-inner-spin-button,
+.lg-gs-threshold-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+.lg-gs-bar {
+    position: relative;
+    height: 40px;
+}
+
+.lg-gs-sections {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    color: var(--c-white);
+}
+
+.lg-gs-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+    user-select: none;
+    transition: flex 0.06s;
+}
+
+.lg-gs-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 24px;
+    transform: translateX(-50%);
+    cursor: ew-resize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.lg-gs-handle-line {
+    width: 2px;
+    height: 100%;
+    background: var(--c-white);
+    pointer-events: none;
+}
+
+.lg-gs-handle-grip {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    transition: transform 0.1s;
+}
+
+.lg-gs-handle:active .lg-gs-handle-grip {
+    transform: scale(1.25);
+}
+
+/* ── 5. Leistungen panel ────────────────────────────────────────────────── */
+/* Grade/performance summary shown on the student dashboard.                 */
+/* Contains: subject selector, pie chart, task-score sliders, grade badges. */
+.leistungen-top-row {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.leistungen-pie-wrap {
+    flex-shrink: 0;
+}
+
+.leistungen-lines-wrap {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    justify-content: center;
+}
+
+.leistungen-empty {
+    stroke: color-mix(in srgb, var(--c-purple) 10%, transparent);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.leistungen-sliders-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.leistungen-projected {
+
+}
+
+/* Grade badge — small coloured pill showing a grade number */
+.grade-badge {
+    display: inline-block;
+    min-width: 1.8em;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.95em;
+    padding: 1px 1px;
+    border-radius: var(--border-radius-lg);
+    color: var(--c-white);
+}
+
+.grade-badge--1 {
+    background: var(--c-grade-1);
+}
+
+.grade-badge--2 {
+    background: var(--c-grade-2);
+}
+
+.grade-badge--3 {
+    background: var(--c-grade-3);
+    color: var(--c-darkgrey);
+}
+
+.grade-badge--4 {
+    background: var(--c-grade-4);
+    color: var(--c-darkgrey);
+}
+
+.grade-badge--5 {
+    background: var(--c-grade-5);
+}
+
+.grade-badge--6 {
+    background: var(--c-grade-6);
+}
+
+/* Task score bars (read-only) and slider bars (interactive, teacher view) */
+.task-slider-track-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.task-line-wrap,
+.task-slider-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.task-line-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.task-line-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Points indicator at the right end of the track */
+.task-line-pts {
+    margin-left: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Track: the full-width background bar */
+.task-line-track {
+    position: relative;
+    height: 20px;
+    background: color-mix(in srgb, var(--c-purple) 10%, transparent);
+    border-radius: 12px;
+}
+
+.task-line-track--slider {
+    cursor: pointer;
+    height: 10px;
+    touch-action: none;
+}
+
+/* Fill: the coloured portion representing earned points */
+.task-line-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: var(--c-mint);
+    border-radius: 12px;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.task-line-fill--slider {
+    transition: none;
+}
+
+/* Dot marker on the track */
+.task-line-dot {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--c-purple);
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    pointer-events: none;
+}
+
+/* Draggable handle for the slider variant */
+.task-line-dot--slider {
+    width: 22px;
+    height: 22px;
+    cursor: grab;
+    pointer-events: all;
+    background: var(--c-mint);
+}
+
+.task-line-dot--slider:active {
+    cursor: grabbing;
+}
+
+/* Pie chart (SVG) showing overall score fraction */
+.pie-chart-bg {
+    fill: none;
+    stroke: color-mix(in srgb, var(--c-purple) 10%, transparent);
+    stroke-width: 30;
+}
+
+.pie-chart-arc {
+    fill: none;
+    stroke: var(--c-mint);
+    stroke-width: 30;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pie-chart-value {
+    text-anchor: middle;
+    font-weight: bold;
+}
+
+.pie-chart-label {
+    text-anchor: middle;
+}

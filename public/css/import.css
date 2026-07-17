@@ -1,0 +1,289 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   import.css — styles for the admin data import wizard (/import)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Entity type selector ───────────────────────────────────────────────── */
+
+.import-type-selector {
+    position: relative;
+    margin: 12px 0 0;
+}
+
+.import-type-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.import-type-chevron {
+    width: 16px;
+    height: 16px;
+    opacity: .5;
+    flex-shrink: 0;
+}
+
+#type-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+#type-dropdown.dropdown--visible {
+    pointer-events: auto;
+}
+
+#step-upload .bn-section-header,
+#step-upload .bn-section-subtitle,
+#step-export .bn-section-header,
+#step-backup .bn-section-header,
+#step-restore .bn-section-header,
+#step-archiv .bn-section-header,
+#step-reset .bn-section-header {
+    color: var(--c-mediumgrey);
+    margin-top: 0;
+}
+
+#step-restore label,
+#step-reset label {
+     color: var(--c-darkgrey);
+}
+
+/* ── DB section form grids ──────────────────────────────────────────────── */
+
+.restore-grid { grid-template-columns: 1fr 1fr; }
+.reset-grid   { grid-template-columns: 1fr 1fr 1fr; }
+
+@media (max-width: 700px) {
+    .restore-grid,
+    .reset-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Format hint ────────────────────────────────────────────────────────── */
+
+#type-info-card {
+    margin-top: 12px;
+}
+
+#type-info-card .bn-item-sub{
+    margin-top: 1rem;
+    color: var(--c-mediumgrey);
+}
+
+#type-info-card .bn-item-sub:first-child {
+    margin-top: 0;
+}
+
+#type-info-card .bn-action-btn {
+    /*margin-top: 0.5rem;*/
+    /*margin-bottom: 0.5rem;*/
+}
+
+.import-format-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0 10px;
+    flex-wrap: wrap;
+}
+
+.import-format-code {
+    color: var(--c-white);
+    border-radius: 6px;
+    padding: 3px 8px;
+    /*font-size: .82rem;*/
+    /*letter-spacing: .02em;*/
+}
+
+.import-format-list {
+    list-style: disc;
+    padding-left: 1.4em;
+    margin: 8px 0 4px;
+    /*font-size: .88rem;*/
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.import-format-list li code {
+    background: var(--c-white);
+    border-radius: var(--border-radius-xs);
+    padding: 0.3rem;
+    line-height: 1.5rem;
+}
+
+/* ── Upload drop zone ───────────────────────────────────────────────────── */
+
+.import-drop-zone {
+    background: color-mix(in srgb, var(--c-white) 80%, transparent);
+    /*border: 2px solid var(--c-white);*/
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+    color: var(--c-mediumgrey);
+    transition: border-color .15s, background .15s;
+}
+.import-drop-zone-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 2rem;
+}
+
+.import-drop-zone label.btn,
+.import-drop-zone label.btn-s {
+    width: fit-content;
+}
+
+.import-buttons {
+    margin-top: 1rem;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.import-drop-zone.drag-over {
+    /*border-color: #6d28d9;*/
+    background: color-mix(in srgb, var(--c-white) 80%, transparent);
+}
+
+.import-upload-hint {
+    color: var(--c-white);
+}
+
+/* ── Preview summary badges ─────────────────────────────────────────────── */
+
+.import-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.import-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: .82rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+
+.badge-new      { background: color-mix(in srgb, var(--c-mint) 100%, transparent); color: #fff; }
+.badge-update   { background: color-mix(in srgb, var(--c-orange) 100%, transparent);  color: #fff; }
+.badge-existing { background: color-mix(in srgb, var(--c-mediumgrey) 100%, transparent); color: #fff; }
+.badge-invalid  { background: color-mix(in srgb, var(--c-red) 100%, transparent);   color: #fff; }
+
+/* ── Filter tab bar — uses shared .filter-bar from menus.css as container ── */
+
+.import-filter-btn {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    border-radius: 20px;
+}
+
+.import-filter-btn:hover {
+    background: rgba(255, 255, 255, 0.32);
+}
+
+.import-filter-btn--active {
+    background: rgba(255, 255, 255, 0.42);
+    font-weight: 700;
+}
+
+/* ── Table controls row ─────────────────────────────────────────────────── */
+
+.import-table-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /*margin-bottom: 10px;*/
+}
+
+/* ── Scrollable preview table ───────────────────────────────────────────── */
+
+.import-table-wrapper {
+    overflow-x: auto;
+    max-height: 520px;
+    overflow-y: auto;
+    border-radius: 8px;
+}
+
+.import-table-wrapper table {
+    min-width: 600px;
+}
+
+/* ── Row status tints ───────────────────────────────────────────────────── */
+
+#previewBody .import-row--new      { background: rgba(72, 187, 120, .14); }
+#previewBody .import-row--update   { background: rgba(237, 137, 54, .14); }
+#previewBody .import-row--existing { opacity: .55; }
+#previewBody .import-row--invalid  { background: rgba(229, 62, 62, .12); }
+
+.import-changes-header,
+.import-changes {
+    max-width: 260px;
+    white-space: normal;
+    overflow: visible;
+}
+
+.import-changes {
+    font-size: .82rem;
+    color: var(--c-mediumgrey);
+}
+
+.import-error-text {
+    color: var(--c-red) !important;
+}
+
+/* ── Step navigation bar ────────────────────────────────────────────────── */
+
+/* ── Export type checklist ──────────────────────────────────────────────── */
+
+.export-type-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+    background-color: color-mix(in srgb, var(--c-navy) 10%, transparent);
+    border-radius: var(--border-radius-xs);
+}
+
+.export-type-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    /*background: rgba(255, 255, 255, 0.18);*/
+    color: var(--c-mediumgrey);
+    /*border-radius: 20px;*/
+    padding: 5px 14px;
+    cursor: pointer;
+    user-select: none;
+    font-size: .9rem;
+    transition: background .15s;
+}
+
+.export-type-row:hover {
+    color: var(--c-navy);
+}
+
+.export-type-row input[type="checkbox"] {
+    /*accent-color: #fff;*/
+    width: 14px;
+    height: 14px;
+}
+
+/* ── Step navigation bar ────────────────────────────────────────────────── */
+
+.import-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

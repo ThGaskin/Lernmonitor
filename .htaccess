@@ -1,0 +1,7 @@
+# If your server's document root points to the project root (not public/),
+# this file redirects all traffic into public/.
+# Ideally configure your server to point directly at public/ instead.
+
+RewriteEngine On
+RewriteRule ^$ public/ [L]
+RewriteRule ^((?!public/).*)$ public/$1 [L]

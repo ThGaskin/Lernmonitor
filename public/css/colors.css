@@ -1,0 +1,41 @@
+:root {
+
+    /* ── Colour palette ─────────────────── */
+    --c-purple:      rgba(99, 29, 118, 1);
+    --c-lavender:    rgba(155, 121, 169, 1);
+    --c-lightpurple: rgba(206, 209, 221, 1);
+    --c-pink:        rgba(158, 71, 112, 1);
+    --c-red:         rgba(204, 76, 73, 1);
+    --c-peach:       rgba(234, 172, 139, 1);
+    --c-orange:      rgba(255, 216, 160, 1);
+    --c-mint:        rgba(156, 214, 187, 1);
+    --c-green:       rgba(66, 139, 120, 1);
+    --c-lightblue:   rgba(171, 210, 250, 1);
+    --c-seablue:     rgba(108, 180, 213, 1);
+    --c-navy:        rgba(38, 84, 124, 1);
+    --c-lightgrey:   rgba(160, 174, 192, 1);
+    --c-mediumgrey:  rgba(110, 126, 147, 1);
+    --c-darkgrey:    rgba(73, 72, 80, 1);
+    --c-white:       rgba(255, 255, 255, 1);
+
+    /* Gradients */
+    --student-gradient: linear-gradient(135deg, var(--c-purple), var(--c-pink));
+    --teacher-gradient: linear-gradient(135deg, var(--c-lightblue), var(--c-navy));
+    --class-gradient:   linear-gradient(135deg, var(--c-red), var(--c-peach));
+    --parent-gradient: linear-gradient(135deg, var(--c-pink), var(--c-peach));
+    --subject-gradient: linear-gradient(135deg, var(--c-lightblue), var(--c-peach));
+    --room-gradient:    linear-gradient(135deg, var(--c-peach), var(--c-mint));
+    --admin-gradient:   linear-gradient(135deg, var(--c-pink), var(--c-red));
+    --import-gradient:  linear-gradient(135deg, var(--c-green), var(--c-navy));
+    --settings-gradient:  linear-gradient(135deg, var(--c-mediumgrey), var(--c-lightgrey));
+    --tasks-gradient:  linear-gradient(135deg, var(--c-green), var(--c-mint));
+    --module-gradient:  linear-gradient(135deg, var(--c-lightblue), var(--c-peach));
+
+    /* Grading scale */
+    --c-grade-6: var(--c-red);
+    --c-grade-5: rgba(217, 123, 92, 1);
+    --c-grade-4: var(--c-peach);
+    --c-grade-3: var(--c-mint);
+    --c-grade-2: rgba(91, 170, 151, 1);
+    --c-grade-1: var(--c-green);
+}

@@ -1,0 +1,143 @@
+<?php
+$studentId  = (int)($_GET['id'] ?? 0);
+$viewerRole = Auth::user()['type'];
+$title      = 'Schülerprofil';
+$showBackBtn = true;
+$extraHead  = '
+    <link rel="stylesheet" href="' . Config::asset('/css/student-dashboard.css') . '">
+    <script>window.studentViewConfig = { studentId: ' . $studentId . ', viewerRole: ' . json_encode($viewerRole) . ', projectionDefault: ' . (int)settings()->get('projection_default', 50) . ' };</script>
+';
+include __DIR__ . '/partials/html-head.php';
+?>
+<body>
+<?php include __DIR__ . '/partials/site-header.php'; ?>
+<section id="student-dashboard" style="--page-gradient: var(--student-gradient)">
+
+    <aside class="profile-sidebar blur-sm shadow-sm <?= $viewerRole === 'admin' ? 'profile-sidebar--wide' : '' ?>">
+
+        <!-- Profile info -->
+        <div class="profile-card-name">
+            <span class="profile-greeting text-lg" id="profile-greeting" style="display:none">Hallo</span>
+            <span class="text-xl text-bold" id="profile-first-name">–</span>
+        </div>
+        <p class="text-md profile-card-email" id="profile-email">–</p>
+        <div class="text-xs text-bold profile-card-badges">
+            <span class="profile-badge" id="profile-class">–</span>
+            <span class="profile-badge" id="profile-level">–</span>
+        </div>
+
+        <div class="profile-room-section">
+            <span class="text-xs text-bold profile-room-label">Aktueller Raum</span>
+            <select id="roomSelect">
+                <option value="">kein Raum</option>
+            </select>
+        </div>
+        <div class="profile-room-section" id="level-section" style="display:none">
+            <span class="text-xs text-bold profile-room-label" data-graduation-label>Abschlussstufe</span>
+            <select id="levelSelect"></select>
+        </div>
+        <div id="year-picker-container"></div>
+
+        <!-- Admin-only: subject management + edit form + delete -->
+        <div id="admin-sidebar" class="profile-sidebar-admin" style="display:none">
+
+                <!-- Enrolled subjects with unenroll -->
+                <div class="profile-room-section">
+                    <span class="text-xs text-bold profile-room-label">Fächer</span>
+                    <div id="subject-tags" class="text-xs text-bold profile-card-badges"></div>
+                    <p id="enroll-error" class="form-error" style="display:none"></p>
+                </div>
+                <div class="profile-room-section">
+                    <button id="editDataBtn" class="btn btn-red">Daten bearbeiten</button>
+                    <button id="deleteBtn" class="btn btn-danger">
+                        <img src="/imgs/x.svg" alt=""> Schüler entfernen
+                    </button>
+                </div>
+        </div>
+
+
+    </aside>
+
+    <main class="dashboard-main-panel">
+
+        <!-- Aufgaben -->
+        <section class="card-section blur-lg">
+            <div class="card-header"><span id="aufgaben-header">Aufgaben</span></div>
+            <div class="card-header-description" id="aufgaben-desc"></div>
+            <div id="fachfortschritt-bars"></div>
+            <p class="lg-empty text-italic" id="no-tasks-hint" style="display:none">Noch keine Aufgaben verfügbar.</p>
+        </section>
+
+        <!-- Leistungen -->
+        <section class="card-section blur-lg" id="leistungen-section" style="display:none">
+            <div class="card-header"><span id="leistungen-header-text">Leistungen im Fach</span>
+                <select id="leistungen-subject-select" class="leistungen-select"></select>
+            </div>
+            <div class="card-header-description" id="leistungen-desc"></div>
+            <div id="leistungen-content"></div>
+        </section>
+
+    </main>
+
+</section>
+
+<!-- Enroll subject modal -->
+<div id="enroll-modal" class="confirm-overlay" style="display:none">
+    <div class="confirm-box">
+        <select id="subjectSelect" class="input-box">
+            <option value="">Fach auswählen</option>
+        </select>
+        <p id="enroll-error" class="form-error" style="display:none"></p>
+        <div class="confirm-actions">
+            <button type="button" id="enrollModalClose" class="btn">Abbrechen</button>
+            <button type="button" id="enrollBtn" class="btn btn-confirm" disabled>Einschreiben</button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit student data modal -->
+<div id="edit-modal" class="confirm-overlay" style="display:none">
+    <div class="confirm-box">
+        <form id="edit-student-form" style="display:flex; flex-direction:column; gap:8px;">
+            <input class="input-box" type="text"  id="ef-firstName" placeholder="Vorname(n)" required>
+            <input class="input-box" type="text"  id="ef-lastName"  placeholder="Nachname"   required>
+            <input class="input-box" type="email" id="ef-email"     placeholder="E-Mail"     required>
+            <input class="input-box" type="text"  id="ef-bn"        placeholder="Benutzername (optional)">
+            <select id="ef-class" class="input-box" required></select>
+            <select id="ef-grad" class="input-box" required></select>
+            <p id="edit-error"   class="form-error"   style="display:none"></p>
+            <p id="edit-success" class="form-success" style="display:none">Änderungen gespeichert.</p>
+            <div class="confirm-actions">
+                <button type="button" id="editModalClose" class="btn">Abbrechen</button>
+                <button type="submit" class="btn btn-confirm">Speichern</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Unenroll subject modal -->
+<div id="unenroll-modal" class="confirm-overlay" style="display:none">
+    <div class="confirm-box">
+        <div id="unenroll-modal-text" class="confirm-box-text"></div>
+        <div class="confirm-actions">
+            <button id="unenroll-cancel" class="btn">Abbrechen</button>
+            <button id="unenroll-confirm" class="btn btn-danger">Entfernen</button>
+        </div>
+    </div>
+</div>
+
+<!-- Delete confirmation modal -->
+<div id="confirm-modal" class="confirm-overlay" style="display:none">
+    <div class="confirm-box">
+        <div id="confirm-modal-text" class="confirm-box-text"></div>
+        <div class="confirm-actions">
+            <button id="confirm-cancel" class="btn">Abbrechen</button>
+            <button id="confirm-delete" class="btn btn-danger">Endgültig entfernen</button>
+        </div>
+    </div>
+</div>
+
+<script src="<?= Config::asset('/js/grading-scale.js') ?>"></script>
+<script src="<?= Config::asset('/js/student/student-view.js') ?>"></script>
+</body>
+</html>

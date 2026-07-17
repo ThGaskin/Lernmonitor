@@ -1,0 +1,131 @@
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    color: var(--c-navy);
+}
+
+table th, table td {
+    padding: 12px 16px;
+    text-align: left;
+    max-width: 220px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+table td.row-actions {
+    max-width: none;
+    white-space: normal;
+    overflow: visible;
+}
+
+table th {
+    color: var(--c-white);
+    background: color-mix(in srgb, var(--c-navy) 100%, transparent);
+}
+
+table tr:nth-child(even) {
+    background: color-mix(in srgb, var(--c-navy) 5%, transparent);
+}
+
+table tr:nth-child(odd) {
+    background: color-mix(in srgb, var(--c-navy) 10%, transparent);
+}
+
+table tr:hover {
+    background: color-mix(in srgb, var(--c-navy) 30%, transparent);
+    transition: background 0.2s;
+}
+
+.table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll > table {
+    width: max-content;
+    min-width: 100%;
+}
+
+.gradient-table thead tr {
+    /*background: transparent;*/
+}
+
+.gradient-table thead tr:hover {
+    /*background: transparent;*/
+}
+
+table td {
+    /*border-bottom: 1px solid #dee2e6;*/
+}
+
+table tr:last-child td {
+    border-bottom: 0;
+}
+
+/*.gradient-table thead {*/
+/*    background: var(--page-gradient);*/
+/*}*/
+
+/*.gradient-table thead th {*/
+/*    background: transparent;*/
+/*    color: white;*/
+/*    border-bottom-color: rgba(0, 0, 0, 0.15);*/
+/*}*/
+
+
+/* ── Admin/user tables ────────────────────────────────────────────── */
+#adminTable,
+#userTable {
+    table-layout: fixed;
+}
+
+#adminTable .col-actions,
+#userTable .col-actions {
+    width: max-content;
+}
+
+#adminTable td:not(.row-actions),
+#userTable td:not(.row-actions) {
+    overflow-x: auto;
+}
+
+.col-width-probe {
+    display: flex;
+    gap: 6px;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#csv-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 950px) {
+    .col-email { display: none; }
+
+    /* Admin pages are not viewed on phones — always show email */
+    #students .col-email,
+    #teachers .col-email,
+    #parents .col-email,
+    #admins .col-email,
+    #classes .col-email,
+    #subjects .col-email,
+    #rooms .col-email,
+    #import .col-email,
+    #settings .col-email { display: table-cell; }
+}
+
+@media (max-width: 700px) {
+    table th, table td {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+}

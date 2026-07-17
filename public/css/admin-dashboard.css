@@ -1,0 +1,432 @@
+/* ── Admin Dashboard ──────────────────────────────────────────────────────── */
+/* Loaded only on the admin dashboard page.                                   */
+
+/* ── Animated background ──────────────────────────────────────────────────── */
+
+@keyframes ani-admin-bg {
+    0% {
+        --ad-x-0: 5%;
+        --ad-y-0: 1%;
+        --ad-s0: 7%;
+        --ad-e0: 84%;
+        --ad-c-0: var(--c-seablue);
+        --ad-x-1: 7%;
+        --ad-y-1: 81%;
+        --ad-s1: 16%;
+        --ad-e1: 53%;
+        --ad-c-1: hsla(130, 91%, 91%, 1);
+        --ad-x-2: 11%;
+        --ad-y-2: 29%;
+        --ad-s2: 8%;
+        --ad-e2: 74%;
+        --ad-c-2: var(--c-mint);
+        --ad-x-3: 39%;
+        --ad-y-3: 52%;
+        --ad-s3: 6%;
+        --ad-e3: 68%;
+        --ad-c-3: var(--c-white);
+        --ad-x-4: 90%;
+        --ad-y-4: 50%;
+        --ad-s4: 2%;
+        --ad-e4: 85%;
+        --ad-c-4: hsla(318, 80%, 97%, 1);
+    }
+    100% {
+        --ad-x-0: 80%;
+        --ad-y-0: 70%;
+        --ad-s0: 10%;
+        --ad-e0: 80%;
+        --ad-c-0: var(--c-mint);
+        --ad-x-1: 60%;
+        --ad-y-1: 10%;
+        --ad-s1: 14%;
+        --ad-e1: 58%;
+        --ad-c-1: hsla(130, 85%, 88%, 1);
+        --ad-x-2: 85%;
+        --ad-y-2: 55%;
+        --ad-s2: 11%;
+        --ad-e2: 70%;
+        --ad-c-2: hsla(318, 80%, 97%, 1);
+        --ad-x-3: 20%;
+        --ad-y-3: 80%;
+        --ad-s3: 8%;
+        --ad-e3: 65%;
+        --ad-c-3: var(--c-peach);
+        --ad-x-4: 10%;
+        --ad-y-4: 40%;
+        --ad-s4: 5%;
+        --ad-e4: 82%;
+        --ad-c-4: var(--c-orange);
+    }
+}
+
+@property --ad-x-0 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 5%
+}
+
+@property --ad-y-0 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 1%
+}
+
+@property --ad-s0 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 7%
+}
+
+@property --ad-e0 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 84%
+}
+
+@property --ad-c-0 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(196, 76%, 61%, 1)
+}
+
+@property --ad-x-1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 7%
+}
+
+@property --ad-y-1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 81%
+}
+
+@property --ad-s1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 16%
+}
+
+@property --ad-e1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 53%
+}
+
+@property --ad-c-1 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(130, 91%, 91%, 1)
+}
+
+@property --ad-x-2 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 11%
+}
+
+@property --ad-y-2 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 29%
+}
+
+@property --ad-s2 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 8%
+}
+
+@property --ad-e2 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 74%
+}
+
+@property --ad-c-2 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(159, 97%, 75%, 1)
+}
+
+@property --ad-x-3 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 39%
+}
+
+@property --ad-y-3 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 52%
+}
+
+@property --ad-s3 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 6%
+}
+
+@property --ad-e3 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 68%
+}
+
+@property --ad-c-3 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(95, 93%, 64%, 1)
+}
+
+@property --ad-x-4 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 90%
+}
+
+@property --ad-y-4 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 50%
+}
+
+@property --ad-s4 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 2%
+}
+
+@property --ad-e4 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 85%
+}
+
+@property --ad-c-4 {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: hsla(64, 94%, 89%, 1)
+}
+
+body:has(#admin-dashboard) {
+    --ad-x-0: 5%;
+    --ad-y-0: 1%;
+    --ad-c-0: hsla(196, 76%, 61%, 1);
+    --ad-x-1: 7%;
+    --ad-y-1: 81%;
+    --ad-c-1: hsla(130, 91%, 91%, 1);
+    --ad-x-2: 11%;
+    --ad-y-2: 29%;
+    --ad-c-2: hsla(159, 97%, 75%, 1);
+    --ad-x-3: 39%;
+    --ad-y-3: 52%;
+    --ad-c-3: hsla(95, 93%, 64%, 1);
+    --ad-x-4: 90%;
+    --ad-y-4: 50%;
+    --ad-c-4: hsla(64, 94%, 89%, 1);
+    background-color: hsla(119, 77%, 83%, 1);
+    background-image: radial-gradient(circle at var(--ad-x-0) var(--ad-y-0), var(--ad-c-0) var(--ad-s0), transparent var(--ad-e0)),
+    radial-gradient(circle at var(--ad-x-1) var(--ad-y-1), var(--ad-c-1) var(--ad-s1), transparent var(--ad-e1)),
+    radial-gradient(circle at var(--ad-x-2) var(--ad-y-2), var(--ad-c-2) var(--ad-s2), transparent var(--ad-e2)),
+    radial-gradient(circle at var(--ad-x-3) var(--ad-y-3), var(--ad-c-3) var(--ad-s3), transparent var(--ad-e3)),
+    radial-gradient(circle at var(--ad-x-4) var(--ad-y-4), var(--ad-c-4) var(--ad-s4), transparent var(--ad-e4));
+    background-attachment: fixed;
+    animation: ani-admin-bg 13s linear infinite alternate;
+}
+/*body:has(#admin-dashboard) {*/
+/*    background-color: hsla(259, 100%, 63%, 1);*/
+/*    background-image:*/
+/*            radial-gradient(circle at 15% 85%, hsla(318, 80%, 97%, 1) 19%, transparent 84%),*/
+/*            radial-gradient(circle at 31% 1%, var(--c-orange) 12%, transparent 85%),*/
+/*            radial-gradient(circle at 88% 87%, hsla(163, 90%, 78%, 1) 3.6400864520532363%, transparent 75.20902830975928%),*/
+/*            radial-gradient(circle at 30% 27%, hsla(282.5, 21.818%, 56.863%, 1) 14%, transparent 90%);*/
+/*    background-blend-mode: normal, normal, normal, normal;*/
+/*}*/
+
+/* ── Layout ────────────────────────────────────────────────────────────────── */
+
+#admin-dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 24px;
+    min-height: 100vh;
+    box-sizing: border-box;
+    animation: panel-appear 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.welcome-heading {
+    align-self: flex-start;
+    margin: 28px 0 36px;
+    line-height: 1.2;
+}
+
+.welcome-greeting, .welcome-name {
+    display: block;
+    color: var(--c-white);
+}
+
+#admin-list .bn-section-header,
+#user-list .bn-section-header{
+    color: var(--c-mediumgrey);
+    margin-top: 0;
+}
+
+/* Admin dashboard: students */
+#add-students-wrapper .bn-section-header,
+#add-teachers-wrapper .bn-section-header,
+#add-classes-wrapper .bn-section-header,
+#add-subjects-wrapper .bn-section-header,
+#add-rooms-wrapper .bn-section-header,
+#add-parents-wrapper .bn-section-header,
+#add-admins-wrapper .bn-section-header{
+    color: var(--c-white);
+    margin-top: 0;
+}
+
+#parents .profile-badge {
+    color: var(--c-purple);
+    background: color-mix(in srgb, var(--c-purple) 10%, transparent);
+}
+
+#parents .link-add-btn {
+    padding: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+    background-color: var(--c-purple);
+}
+#parents .link-add-btn img {
+    height: 0.8rem;
+    padding: 0;
+}
+
+
+
+/* ── Admin Dashboard ───────────────────────────────────────────── */
+
+#admin-dashboard {
+    max-width: 960px;
+    margin: 24px auto;
+    padding: 24px;
+}
+
+#admin-topbar {
+    display: flex;
+    gap: 8px;
+}
+
+.settings-dropdown-wrapper {
+    position: relative;
+}
+
+.settings-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--c-lightgrey);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    min-width: 200px;
+    z-index: 100;
+    padding: 4px;
+}
+
+.settings-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 9px 12px;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: var(--c-darkgrey);
+    cursor: pointer;
+    text-align: left;
+}
+
+.settings-dropdown-item svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.settings-dropdown-item:hover {
+    background: #f7fafc;
+}
+
+#admin-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    #admin-dashboard {
+        padding: 24px 16px;
+    }
+
+    #admin-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    #admin-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}
+
+.admin-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 28px 16px;
+    border-radius: 16px;
+    text-decoration: none;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.admin-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+.admin-card svg {
+    width: 48px;
+    height: 48px;
+    opacity: 0.95;
+}
+
+.admin-card span {
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+#admin-dashboard #add-admin,
+#admin-dashboard #data-import {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}

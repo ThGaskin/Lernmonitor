@@ -1,0 +1,125 @@
+<?php
+$teacherId  = (int)($_GET['id'] ?? 0);
+$viewerRole = Auth::user()['type'];
+$title      = 'Lehrerprofil';
+$showBackBtn = true;
+$extraHead  = '
+    <link rel="stylesheet" href="' . Config::asset('/css/lehrer-dashboard.css') . '">
+    <script>window.teacherViewConfig = { teacherId: ' . $teacherId . ', viewerRole: ' . json_encode($viewerRole) . ', adminOnlyTasksets: ' . ((settings()->get('task_scope', 'grade') === 'grade' || settings()->get('admin_only_tasksets', true)) ? 'true' : 'false') . ' };</script>
+';
+include __DIR__ . '/partials/html-head.php';
+?>
+<body>
+<?php include __DIR__ . '/partials/site-header.php'; ?>
+<section id="teacher-dashboard" style="--page-gradient: var(--teacher-gradient)">
+
+    <aside class="profile-sidebar blur-sm shadow-sm profile-sidebar--wide">
+
+        <!-- Profile info -->
+        <div class="profile-card-name">
+            <span class="profile-greeting text-lg" id="profile-greeting" style="display:none">Hallo</span>
+            <span class="text-xl text-bold" id="profile-first-name">–</span>
+        </div>
+        <p class="profile-card-email text-md" id="profile-email">–</p>
+        <div class="profile-card-badges text-xs text-bold" id="profile-lerngruppen-badges"></div>
+
+        <div class="profile-room-section">
+            <span class="text-xs text-bold profile-room-label">Aktueller Raum</span>
+            <select id="roomSelect">
+                <option value="">kein Raum</option>
+            </select>
+        </div>
+
+        <!-- Admin-only controls -->
+        <div id="admin-sidebar" class="profile-sidebar-admin" style="display:none">
+            <div class="profile-room-section">
+                <button id="editDataBtn" class="btn btn-red">Daten bearbeiten</button>
+                <button id="deleteBtn" class="btn btn-danger">
+                    <img src="/imgs/x.svg" alt=""> Lehrer entfernen
+                </button>
+            </div>
+        </div>
+
+    </aside>
+
+    <main class="dashboard-main-panel">
+
+        <!-- Lerngruppen -->
+        <section class="card-section blur-lg">
+            <div class="card-header">Lerngruppen</div>
+            <div class="card-header-description">Die Klassen und Fächer, die diese Lehrkraft unterrichtet.<?php if (settings()->get('admin_only_tasksets', true)): ?> Aufgabensets werden unter <a href="/manage_tasks">Aufgabensets</a> verwaltet.<?php endif; ?></div>
+            <div id="lerngruppen-list"></div>
+            <p class="lg-empty text-italic" id="no-lerngruppen-hint" style="display:none">Noch keine Lerngruppen zugewiesen.</p>
+            <div id="add-lerngruppe-area"></div>
+        </section>
+
+        <!-- Schüler -->
+        <section class="card-section blur-lg">
+            <div class="card-header">Schüler</div>
+            <div class="card-header-description">Alle Schüler in den Lerngruppen dieser Lehrkraft.</div>
+            <div class="filter-bar">
+                <input type="search" id="myStudentSearch" placeholder="Name oder E-Mail suchen …">
+                <button type="button" class="dropdown-trigger" id="myStudentFilterClass">Alle Klassen</button>
+            </div>
+            <table id="myStudentTable" class="gradient-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>E-Mail</th>
+                        <th>Klasse</th>
+                        <th data-graduation-label>Abschlussstufe</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="myStudentTableBody"></tbody>
+            </table>
+            <div id="myStudentPagination" class="pagination-bar"></div>
+        </section>
+
+    </main>
+
+</section>
+
+<!-- Edit teacher data modal -->
+<div id="edit-modal" class="confirm-overlay" style="display:none">
+    <div class="confirm-box">
+        <form id="edit-teacher-form" style="display:flex;flex-direction:column;gap:8px">
+            <input class="input-box" type="text"  id="ef-firstName" placeholder="Vorname(n)" required>
+            <input class="input-box" type="text"  id="ef-lastName"  placeholder="Nachname"   required>
+            <input class="input-box" type="email" id="ef-email"     placeholder="E-Mail"     required>
+            <input class="input-box" type="text"  id="ef-bn"        placeholder="Benutzername (optional)">
+            <p id="edit-error" class="form-error" style="display:none"></p>
+            <div class="confirm-actions">
+                <button type="button" id="editModalClose" class="btn">Abbrechen</button>
+                <button type="submit" class="btn btn-confirm">Speichern</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Delete confirmation modal -->
+<div id="confirm-modal" class="confirm-overlay" style="display:none">
+    <div class="confirm-box">
+        <p id="confirm-modal-text" class="confirm-box-text"></p>
+        <div class="confirm-actions">
+            <button id="confirm-cancel" class="btn">Abbrechen</button>
+            <button id="confirm-delete" class="btn btn-danger">Endgültig entfernen</button>
+        </div>
+    </div>
+</div>
+
+<!-- Remove lerngruppe confirmation modal -->
+<div id="remove-lg-modal" class="confirm-overlay" style="display:none">
+    <div class="confirm-box">
+        <p id="remove-lg-modal-text" class="confirm-box-text"></p>
+        <div class="confirm-actions">
+            <button id="remove-lg-cancel" class="btn">Abbrechen</button>
+            <button id="remove-lg-confirm" class="btn btn-danger">Entfernen</button>
+        </div>
+    </div>
+</div>
+
+<script src="<?= Config::asset('/js/grading-scale.js') ?>"></script>
+<script src="<?= Config::asset('/js/teacher/teacher-view.js') ?>"></script>
+</body>
+</html>

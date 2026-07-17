@@ -1,0 +1,459 @@
+/* ── Class Dashboard ─────────────────────────────────────────────────────── */
+/* Loaded only on the class dashboard page.                                   */
+:root {}
+
+/* ── Animated background ──────────────────────────────────────────────────── */
+
+@keyframes ani-class-bg {
+    0% {
+        --cld-x-0: 20%;
+        --cld-y-0: 25%;
+        --cld-s0: 5%;
+        --cld-e0: 55%;
+        --cld-c-0: hsla(1, 60%, 78%, 1);
+        --cld-x-1: 80%;
+        --cld-y-1: 70%;
+        --cld-s1: 8%;
+        --cld-e1: 62%;
+        --cld-c-1: hsla(21, 72%, 82%, 1);
+        --cld-x-2: 50%;
+        --cld-y-2: 10%;
+        --cld-s2: 4%;
+        --cld-e2: 48%;
+        --cld-c-2: hsla(39, 80%, 86%, 1);
+        --cld-x-3: 10%;
+        --cld-y-3: 80%;
+        --cld-s3: 6%;
+        --cld-e3: 44%;
+        --cld-c-3: hsla(12, 55%, 84%, 1);
+        --cld-x-4: 75%;
+        --cld-y-4: 18%;
+        --cld-s4: 9%;
+        --cld-e4: 54%;
+        --cld-c-4: hsla(30, 65%, 88%, 1);
+    }
+    100% {
+        --cld-x-0: 85%;
+        --cld-y-0: 62%;
+        --cld-s0: 11%;
+        --cld-e0: 58%;
+        --cld-c-0: hsla(1, 55%, 76%, 1);
+        --cld-x-1: 15%;
+        --cld-y-1: 22%;
+        --cld-s1: 6%;
+        --cld-e1: 66%;
+        --cld-c-1: hsla(21, 68%, 80%, 1);
+        --cld-x-2: 62%;
+        --cld-y-2: 84%;
+        --cld-s2: 9%;
+        --cld-e2: 52%;
+        --cld-c-2: hsla(39, 75%, 84%, 1);
+        --cld-x-3: 42%;
+        --cld-y-3: 44%;
+        --cld-s3: 4%;
+        --cld-e3: 40%;
+        --cld-c-3: hsla(12, 50%, 82%, 1);
+        --cld-x-4: 28%;
+        --cld-y-4: 78%;
+        --cld-s4: 13%;
+        --cld-e4: 48%;
+        --cld-c-4: hsla(30, 60%, 86%, 1);
+    }
+}
+
+@property --cld-x-0 { syntax: '<percentage>'; inherits: false; initial-value: 20% }
+@property --cld-y-0 { syntax: '<percentage>'; inherits: false; initial-value: 25% }
+@property --cld-s0  { syntax: '<percentage>'; inherits: false; initial-value: 5%  }
+@property --cld-e0  { syntax: '<percentage>'; inherits: false; initial-value: 55% }
+@property --cld-c-0 { syntax: '<color>';      inherits: false; initial-value: hsla(1, 60%, 78%, 1) }
+
+@property --cld-x-1 { syntax: '<percentage>'; inherits: false; initial-value: 80% }
+@property --cld-y-1 { syntax: '<percentage>'; inherits: false; initial-value: 70% }
+@property --cld-s1  { syntax: '<percentage>'; inherits: false; initial-value: 8%  }
+@property --cld-e1  { syntax: '<percentage>'; inherits: false; initial-value: 62% }
+@property --cld-c-1 { syntax: '<color>';      inherits: false; initial-value: hsla(21, 72%, 82%, 1) }
+
+@property --cld-x-2 { syntax: '<percentage>'; inherits: false; initial-value: 50% }
+@property --cld-y-2 { syntax: '<percentage>'; inherits: false; initial-value: 10% }
+@property --cld-s2  { syntax: '<percentage>'; inherits: false; initial-value: 4%  }
+@property --cld-e2  { syntax: '<percentage>'; inherits: false; initial-value: 48% }
+@property --cld-c-2 { syntax: '<color>';      inherits: false; initial-value: hsla(39, 80%, 86%, 1) }
+
+@property --cld-x-3 { syntax: '<percentage>'; inherits: false; initial-value: 10% }
+@property --cld-y-3 { syntax: '<percentage>'; inherits: false; initial-value: 80% }
+@property --cld-s3  { syntax: '<percentage>'; inherits: false; initial-value: 6%  }
+@property --cld-e3  { syntax: '<percentage>'; inherits: false; initial-value: 44% }
+@property --cld-c-3 { syntax: '<color>';      inherits: false; initial-value: hsla(12, 55%, 84%, 1) }
+
+@property --cld-x-4 { syntax: '<percentage>'; inherits: false; initial-value: 75% }
+@property --cld-y-4 { syntax: '<percentage>'; inherits: false; initial-value: 18% }
+@property --cld-s4  { syntax: '<percentage>'; inherits: false; initial-value: 9%  }
+@property --cld-e4  { syntax: '<percentage>'; inherits: false; initial-value: 54% }
+@property --cld-c-4 { syntax: '<color>';      inherits: false; initial-value: hsla(30, 65%, 88%, 1) }
+
+body:has(#class-dashboard) {
+    --cld-x-0: 20%;
+    --cld-y-0: 25%;
+    --cld-c-0: hsla(1, 60%, 78%, 1);
+    --cld-x-1: 80%;
+    --cld-y-1: 70%;
+    --cld-c-1: hsla(21, 72%, 82%, 1);
+    --cld-x-2: 50%;
+    --cld-y-2: 10%;
+    --cld-c-2: hsla(39, 80%, 86%, 1);
+    --cld-x-3: 10%;
+    --cld-y-3: 80%;
+    --cld-c-3: hsla(12, 55%, 84%, 1);
+    --cld-x-4: 75%;
+    --cld-y-4: 18%;
+    --cld-c-4: hsla(30, 65%, 88%, 1);
+    background-color: hsla(15, 50%, 92%, 1);
+    background-image:
+        radial-gradient(circle at var(--cld-x-0) var(--cld-y-0), var(--cld-c-0) var(--cld-s0), transparent var(--cld-e0)),
+        radial-gradient(circle at var(--cld-x-1) var(--cld-y-1), var(--cld-c-1) var(--cld-s1), transparent var(--cld-e1)),
+        radial-gradient(circle at var(--cld-x-2) var(--cld-y-2), var(--cld-c-2) var(--cld-s2), transparent var(--cld-e2)),
+        radial-gradient(circle at var(--cld-x-3) var(--cld-y-3), var(--cld-c-3) var(--cld-s3), transparent var(--cld-e3)),
+        radial-gradient(circle at var(--cld-x-4) var(--cld-y-4), var(--cld-c-4) var(--cld-s4), transparent var(--cld-e4));
+    background-attachment: fixed;
+    animation: ani-class-bg 11s linear infinite alternate;
+}
+
+/* ── Page layout ─────────────────────────────────────────────────────────── */
+
+#class-dashboard {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    padding: 24px;
+    min-height: 100vh;
+    align-items: flex-start;
+    box-sizing: border-box;
+    animation: panel-appear 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Class-name dropdown trigger (teacher only) ──────────────────────────── */
+
+#class-dashboard button#class-name {
+    align-self: flex-start;
+    width: auto;
+    font-size: 2.5rem;
+    font-weight: bold;
+    padding: 0.1rem 28px 0.1rem 0;
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    color: var(--c-darkgrey);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='auto' viewBox='0 0 16 10'%3E%3Cpolyline points='1,1 8,9 15,1' fill='none' stroke='%23494850' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-position: right 4px center;
+}
+
+#class-dashboard button#class-name:hover {
+    background-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────────────── */
+
+#class-dashboard .profile-sidebar {
+    color: var(--c-red);
+}
+
+#class-dashboard .profile-card-name {
+    color: var(--c-darkgrey);
+}
+
+#class-dashboard .profile-greeting {
+    color: var(--c-mediumgrey);
+}
+
+#class-dashboard .profile-badge {
+    background: color-mix(in srgb, var(--c-red) 12%, transparent);
+    color: var(--c-red);
+}
+
+#class-dashboard .sidebar-brand span {
+    color: var(--c-red);
+}
+
+/* ── Main panels ──────────────────────────────────────────────────────────── */
+
+#class-dashboard .dashboard-main-panel {
+    max-width: 800px;
+}
+
+#class-dashboard .card-header,
+#matrix-card .card-header {
+    color: var(--c-red);
+}
+
+#class-dashboard .card-header-description,
+#matrix-card .card-header-description {
+    color: var(--c-peach);
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+/* ── Matrix scroll wrapper (collapsed view) ──────────────────────────────── */
+
+#matrix-card:not(.expanded) #fachView {
+    /* Matches #schuelerView's containing block below, so #matrix-empty's
+       top margin doesn't collapse through to the card header like it
+       would in a plain (non-BFC) container. */
+    overflow: hidden;
+}
+
+#matrix-card:not(.expanded) #matrixScroll {
+    max-height: calc(100dvh - 260px);
+    overflow: auto;
+}
+
+#matrix-card:not(.expanded) #schuelerView {
+    max-height: calc(100dvh - 260px);
+    overflow: auto;
+}
+
+#matrix-card .room-badge { pointer-events: none; cursor: default; }
+#matrix-card.expanded .room-badge { pointer-events: auto; cursor: pointer; }
+
+/* Header row sticks to top when scrolling vertically in expanded view */
+#matrix-card.expanded #matrixHeaderRow {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: white;
+}
+
+/* ── Matrix fullscreen ───────────────────────────────────────────────────── */
+
+#class-dashboard #matrix-card {
+    position: relative;
+}
+
+.matrix-expand-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid color-mix(in srgb, var(--c-red) 25%, transparent);
+    background: color-mix(in srgb, var(--c-red) 8%, transparent);
+    color: var(--c-red);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.matrix-expand-btn:hover {
+    background: color-mix(in srgb, var(--c-red) 18%, transparent);
+    border-color: color-mix(in srgb, var(--c-red) 45%, transparent);
+}
+
+#matrix-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: hsla(15, 50%, 92%, 1);
+    z-index: 999;
+}
+
+#matrix-backdrop.visible {
+    display: block;
+    animation: matrix-backdrop-in 0.25s ease both;
+}
+
+@keyframes matrix-backdrop-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+#matrix-card.expanded {
+    position: fixed !important;
+    top: 16px !important;
+    left: 16px !important;
+    right: 16px !important;
+    width: calc(100vw - 32px) !important;
+    height: calc(100dvh - 32px) !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    z-index: 1000;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: white !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    animation: matrix-card-expand 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+
+#matrix-card.expanded #matrixScroll {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
+@keyframes matrix-card-expand {
+    from { opacity: 0.6; transform: scale(0.9); }
+    to   { opacity: 1;   transform: scale(1); }
+}
+
+/* ── Schülerübersicht table (no alternating rows, matches matrix aesthetic) ── */
+
+.matrix-table {
+    margin-top: 0;
+}
+
+.matrix-table thead th {
+    background: transparent;
+    color: var(--c-darkgrey);
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-bottom: 1.5px solid rgba(110,126,147,0.2);
+}
+
+.matrix-table tr:nth-child(even),
+.matrix-table tr:nth-child(odd) {
+    background: transparent;
+}
+
+.matrix-table tr:hover {
+    background: color-mix(in srgb, var(--c-navy) 6%, transparent);
+}
+
+.matrix-table td {
+    border-bottom: 1px solid rgba(110,126,147,0.12);
+    padding: 5px 10px;
+    font-size: 0.82rem;
+}
+
+.matrix-table tr:last-child td {
+    border-bottom: 0;
+}
+
+/* ── Matrix view tabs ────────────────────────────────────────────────────── */
+
+.matrix-view-tab {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    opacity: 0.35;
+    transition: opacity 0.15s;
+    line-height: inherit;
+}
+
+.matrix-view-tab.active {
+    opacity: 1;
+    cursor: default;
+}
+
+.matrix-view-tab:hover:not(.active) {
+    opacity: 0.65;
+}
+
+/* ── Collapsible subject header ──────────────────────────────────────────── */
+
+.matrix-subject-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.matrix-sub-chevron {
+    width: 16px;
+    height: auto;
+    opacity: 0.45;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s;
+}
+
+.matrix-sub-chevron.open {
+    transform: rotate(180deg);
+}
+
+.matrix-subject-toggle:hover .matrix-sub-chevron {
+    opacity: 0.75;
+}
+
+#matrix-card.expanded .matrix-edit-cell {
+    cursor: pointer;
+}
+
+/* ── Matrix legend ───────────────────────────────────────────────────────── */
+
+#matrix-legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.matrix-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    opacity: 0.9;
+    color: var(--c-mediumgrey);
+}
+
+.matrix-legend-disc {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+@media (max-width: 700px) {
+    #class-dashboard {
+        flex-direction: column;
+        padding: 16px 16px 48px;
+        gap: 16px;
+    }
+
+}
+
+@media (max-width: 420px) {
+    #matrix-card .matrix-expand-btn {
+        position: static;
+        float: right;
+        margin-bottom: 8px;
+    }
+
+    #matrix-card .card-header {
+        clear: both;
+    }
+
+    /* In expanded mode the card is display:flex so floats are ignored — use align-self instead */
+    #matrix-card.expanded .matrix-expand-btn {
+        float: none;
+        align-self: flex-end;
+    }
+
+    #matrix-card.expanded .card-header {
+        clear: none;
+    }
+}
+
+/* ── Expanded flex sizing for both view wrappers ─────────────────────────── */
+
+#matrix-card.expanded #fachView {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+#matrix-card.expanded #schuelerView {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}

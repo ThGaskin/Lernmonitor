@@ -1,0 +1,325 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   menus.css — shared dropdown design used across all pages
+   ═══════════════════════════════════════════════════════════════════════════
+
+   Classes applied in JS to every dropdown:
+     .dropdown-trigger   — the button that opens a dropdown
+     .dropdown           — the frosted-glass popup panel
+     .dropdown-option    — an option button inside the panel
+     .dropdown--visible  — added by JS to show the panel
+
+   Colour (text, border, chevron) for .dropdown-trigger is set per-page
+   in each dashboard's own CSS file.
+*/
+
+
+/* ── Trigger button ─────────────────────────────────────────────────────── */
+
+.dropdown-trigger {
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: rgba(255, 255, 255, 0.35);
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 8px 32px 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.dropdown-trigger:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.form-field-dropdown {
+    width: 100%;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.85);
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+
+/* ── Panel ──────────────────────────────────────────────────────────────── */
+.dropdown {
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    padding: 10px;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dropdown--visible {
+    opacity: 1;
+}
+
+
+/* ── Option buttons ─────────────────────────────────────────────────────── */
+
+.dropdown-option {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.04);
+    border: 1.5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    color: rgba(0, 0, 0, 0.65);
+    font-size: 1rem;
+    padding: 10px 14px;
+    cursor: pointer;
+    margin: 0 0 8px;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.dropdown-option:last-child { margin-bottom: 0; }
+
+label.dropdown-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+}
+
+.dropdown-option:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.dropdown-option--active {
+    background: var(--option-status-color, rgba(0, 0, 0, 0.08));
+    border-color: rgba(0, 0, 0, 0.35);
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 700;
+}
+
+.dropdown-option--disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.dropdown-option--spread {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-room-count {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 1em;
+    opacity: 0.5;
+    font-weight: 400;
+}
+
+/* Selection box */
+/*select {*/
+/*    !*padding: 0.5rem;*!*/
+/*    !*margin-left: 10px;*!*/
+/*}*/
+
+/* ── Text input boxes and forms ─────────────────────────────────────────────────────── */
+
+.input-box,
+.input-box-s,
+.filter-bar input,
+.filter-bar select,
+.form-field input,
+.form-field select,
+select {
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: var(--border-radius-xs);
+    border: 1px solid var(--c-mediumgrey);
+    color: var(--c-mediumgrey);
+    background-color: var(--c-white);
+}
+
+.filter-bar select, .form-field select, select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236e7e93' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.6rem center;
+    background-size: 14px;
+    padding-right: 2rem;
+}
+
+.input-box-s{
+    font-size: 0.85rem;
+    padding: 0.2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+/* Styling for buttons in forms */
+.form-field-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.form-field-btn .btn {
+    height: 38px;
+    box-sizing: border-box;
+    border-radius: var(--border-radius-xs);
+    justify-content: center;
+}
+.form-field-btn .btn img {
+    height: 0.85rem;
+}
+
+@media (max-width: 700px) {
+    .form-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .form-grid .form-field-btn {
+        grid-column: auto !important;
+    }
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-field label {}
+
+.form-field input:focus,
+.form-field select:focus {}
+
+
+/* Filter bar */
+.filter-bar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+}
+
+.filter-bar .dropdown-trigger {
+    width: auto;
+}
+
+
+
+.filter-bar input {
+    flex: 1;
+    min-width: 180px;
+}
+
+/* Add person button on the filter bar */
+.filter-add-btn {
+    min-height: 30px;
+    padding: 0;
+    flex-shrink: 0;
+    align-self: stretch;
+    box-sizing: border-box;
+    background: var(--page-gradient);
+    color: white;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.15s;
+}
+
+  #toggleAddStudent {
+      color: var(--c-purple);
+ }
+
+.filter-add-btn img {
+    width: 15px;
+    display: block;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 900px) {
+    .filter-add-btn img {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+.filter-add-btn.active img {
+    transform: rotate(45deg);
+}
+
+.filter-add-btn:hover {
+    background: var(--page-gradient) !important;
+    opacity: 0.85;
+}
+
+/* ── Confirmation dialog ──────────────────────────────────────────────────── */
+
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+.confirm-box {
+    background: #fff;
+    border-radius: var(--border-radius-md);
+    color: var(--c-mediumgrey);
+    padding: 2rem;
+    max-width: 480px;
+    width: 90%;
+    box-sizing: border-box;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Confirmation buttons at the bottom of the menu side-by-side */
+.confirm-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+/* Keeps Abbrechen/Bestätigen together as one wrap unit, so on narrow
+ * screens the line break falls before this pair instead of splitting it. */
+.confirm-actions-group {
+    display: flex;
+    gap: 8px;
+}
+
+/* Header styling */
+.confirm-box-header{
+    color: var(--c-red);
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Text styling */
+.confirm-box-text {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: var(--c-darkgrey);
+    margin: 0;
+    margin-bottom: 0.5rem;
+}

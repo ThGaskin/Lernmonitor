@@ -1,0 +1,348 @@
+:root{
+    --border-radius-xs: 5px;
+    --border-radius-sm: 10px;
+    --border-radius-md: 15px;
+    --border-radius-lg: 20px;
+}
+
+@media (max-width: 800px) {
+    /* Switch header buttons (e.g. "Lehrer Dashboard") to icon-only earlier
+       than the general .btn-label breakpoint, so their longer labels don't
+       wrap to two lines before there's room for them. */
+    .site-header-actions .btn-label { display: none; }
+}
+
+@media (max-width: 700px) {
+    :root {
+        --border-radius-xs: 4px;
+        --border-radius-sm: 8px;
+        --border-radius-md: 10px;
+        --border-radius-lg: 14px;
+    }
+
+    .site-header {
+        flex-wrap: wrap;
+        padding: 10px 16px;
+        gap: 6px;
+    }
+
+    .site-header-brand img {
+        height: 20px !important;
+    }
+
+    .site-header-brand-text {
+        font-size: 1.5rem;
+    }
+}
+
+body {
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+}
+
+#dashboard, #results {
+    max-width: 900px;
+    margin: 24px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+#admins, #students, #teachers, #classes, #parents, #tasks, #subjects, #rooms, #import, #settings {
+    max-width: 900px;
+    margin: 24px auto;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+}
+
+.page-box {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    max-width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+
+
+.panel {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background: #f8f9fa;
+}
+
+.panel h3 {
+    margin: 0;
+    padding: 10px;
+    cursor: pointer;
+    background: #dee2e6;
+}
+
+.panel .panel-body {
+    display: none;
+    padding: 10px;
+}
+
+.panel.active .panel-body {
+    display: block;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+ul li {
+    /*background: #e9ecef;*/
+    margin: 5px 0;
+    padding: 0;
+    /*border-radius: 5px;*/
+}
+
+
+
+
+
+#add-person-result {
+    margin-top: 28px;
+}
+
+#add-person-result table {
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: none;
+    margin-top: 10px;
+}
+
+#add-person-result table th {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+#add-person-result table td {
+    color: #fff;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+#add-person-result table tr:nth-child(even),
+#add-person-result table tr:nth-child(odd) {
+    background: transparent;
+}
+
+#add-person-result table tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+
+
+
+
+.form-error {
+    color: #e53e3e;
+    font-size: 0.9rem;
+    margin-top: 8px;
+}
+
+.form-error::before {
+    content: 'Fehler: ';
+    font-weight: 700;
+}
+
+.form-success {
+    color: #2f855a;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.row-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: flex-end;
+    white-space: nowrap;
+}
+
+/* ── Inline edit row ────────────────────────────────────────────── */
+
+tr.editing td {
+    background: #edf2ff;
+}
+
+.edit-row td {
+    padding: 0 !important;
+    border-bottom: 2px solid #667eea;
+}
+
+.bulk-import-hint {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 20px 0 0;
+}
+
+.bulk-import-hint a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.bulk-import-hint a:hover {
+    text-decoration: underline;
+}
+
+.edit-form {
+    padding: 16px;
+    background: #f7f8ff;
+}
+
+.edit-form .form-field input,
+.edit-form .form-field select {
+    height: 38px;
+    box-sizing: border-box;
+}
+
+
+/* ── Site header (all pages) ───────────────────────────────────── */
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 32px;
+    background: color-mix(in srgb, var(--c-white) 40%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: none;
+}
+
+.site-header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.site-header-brand img {
+    height: 40px;
+    width: auto;
+}
+
+.site-header-brand-text {
+    /*font-size: 2rem;*/
+    /*font-weight: 700;*/
+    color: var(--c-navy);
+    letter-spacing: -0.01em;
+}
+
+.site-header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+
+
+/* ── Page header (subpages) ────────────────────────────────────── */
+
+#page-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: none;
+    margin-bottom: 36px;
+}
+
+.manage-list {
+    margin-top: 30px;
+}
+
+.manage-list.page-box {
+    margin-top: 0;
+}
+
+.manage-list h2 {
+    display: flex;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--c-mediumgrey);
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 10px;
+}
+
+.manage-list h2 img,
+.manage-list h2 svg {
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+}
+
+.manage-list p {
+    color: var(--c-lightgrey);
+    line-height: 1.3rem;
+}
+
+.manage-list-subtitle {
+    color: #718096;
+    margin: 0 0 20px;
+    font-size: 1.5rem;
+}
+
+
+#page-topbar {
+    display: flex;
+    gap: 8px;
+}
+
+.page-title, .page-subtitle {
+    margin: 20px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.page-title {
+    background: var(--page-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.page-subtitle {
+    color: var(--c-mediumgrey)
+}
+
+.page-title img {
+    width: auto;
+    height: 1em;
+    flex-shrink: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Anmelden</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css?v=<?= Config::ASSET_VERSION ?>">
+    <link rel="stylesheet" href="/css/menus.css?v=<?= Config::ASSET_VERSION ?>">
+    <link rel="stylesheet" href="/css/colors.css?v=<?= Config::ASSET_VERSION ?>">
+    <link rel="stylesheet" href="/css/buttons.css?v=<?= Config::ASSET_VERSION ?>">
+    <link rel="stylesheet" href="/css/login.css?v=<?= Config::ASSET_VERSION ?>">
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-brand">
+        <img src="/imgs/logo.svg" alt="Lernmonitor">
+        <span>Lernmonitor</span>
+    </div>
+
+    <form id="loginForm">
+        <!-- Step 1: email only -->
+        <div class="login-input-wrapper" id="username-wrapper">
+            <input id="username" type="text" class="input-box" placeholder="E-Mail oder Benutzername" autocomplete="email" required>
+            <button type="button" id="email-change-btn" class="btn btn-s" style="display:none">Ändern</button>
+        </div>
+
+        <!-- Step 2a: password -->
+        <div class="login-reveal" id="password-group">
+            <input id="password" type="password" class="input-box" placeholder="Passwort" autocomplete="current-password">
+            <a href="#" class="forgot-password" id="forgot-password-link">Passwort vergessen?</a>
+        </div>
+
+        <!-- Step 2b: first login — choose password -->
+        <div class="login-reveal" id="set-password-group">
+            <p class="login-info">Bitte wählen Sie ein Passwort (mindestens 6 Zeichen).</p>
+            <input id="sp-password" type="password" class="input-box" placeholder="Neues Passwort" autocomplete="new-password">
+            <input id="sp-password-confirm" type="password" class="input-box" placeholder="Passwort bestätigen" autocomplete="new-password">
+        </div>
+
+        <!-- Step 2c: forgot password — request a reset link -->
+        <div class="login-reveal" id="forgot-group">
+            <p class="login-info" id="forgot-info">Geben Sie Ihre E-Mail-Adresse ein. Wir senden Ihnen einen Link zum Zurücksetzen des Passworts (gültig für 10 Minuten).</p>
+            <input id="forgot-email" type="text" class="input-box" placeholder="E-Mail-Adresse" autocomplete="email">
+        </div>
+
+        <p class="login-error" id="login-error" style="display:none"></p>
+        <div class="login-btn-row">
+            <button type="submit" id="login-btn" class="btn btn-confirm login-btn" disabled>Weiter</button>
+            <button type="button" id="forgot-cancel-btn" class="btn btn-cancel login-btn" style="display:none">Abbrechen</button>
+        </div>
+        <a href="#" class="btn btn-confirm login-btn" id="back-to-login-link" style="display:none">Zurück zum Login</a>
+    </form>
+</div>
+
+<script>
+    // 'email' | 'password' | 'set-password' | 'forgot' | 'forgot-sent'
+    let loginState = 'email';
+
+    const usernameEl       = document.getElementById('username');
+    const passwordEl       = document.getElementById('password');
+    const spPwEl           = document.getElementById('sp-password');
+    const spPwCfEl         = document.getElementById('sp-password-confirm');
+    const forgotEmailEl    = document.getElementById('forgot-email');
+    const forgotInfoEl     = document.getElementById('forgot-info');
+    const errorEl          = document.getElementById('login-error');
+    const loginBtn         = document.getElementById('login-btn');
+    const emailChangeBtn   = document.getElementById('email-change-btn');
+    const passwordGroup    = document.getElementById('password-group');
+    const spGroup          = document.getElementById('set-password-group');
+    const forgotGroup      = document.getElementById('forgot-group');
+    const forgotPwLink     = document.getElementById('forgot-password-link');
+    const backToLoginLink  = document.getElementById('back-to-login-link');
+    const usernameWrapper  = document.getElementById('username-wrapper');
+    const forgotCancelBtn  = document.getElementById('forgot-cancel-btn');
+    const forgotInfoDefault = forgotInfoEl.textContent;
+
+    function setError(msg) {
+        errorEl.textContent = msg;
+        errorEl.style.display = msg ? 'block' : 'none';
+    }
+
+    function updateBtn() {
+        if (loginState === 'email') {
+            loginBtn.disabled = usernameEl.value.trim() === '';
+        } else if (loginState === 'password') {
+            loginBtn.disabled = passwordEl.value === '';
+        } else if (loginState === 'set-password') {
+            loginBtn.disabled = spPwEl.value.length < 6 || spPwEl.value !== spPwCfEl.value;
+        } else if (loginState === 'forgot') {
+            loginBtn.disabled = forgotEmailEl.value.trim() === '';
+        }
+    }
+
+    usernameEl.addEventListener('input', () => { setError(''); updateBtn(); });
+    passwordEl.addEventListener('input', () => { setError(''); updateBtn(); });
+    spPwEl.addEventListener('input', updateBtn);
+    spPwCfEl.addEventListener('input', updateBtn);
+    forgotEmailEl.addEventListener('input', () => { setError(''); updateBtn(); });
+    updateBtn();
+
+    function showPasswordStep() {
+        usernameEl.readOnly = true;
+        usernameWrapper.style.display = '';
+        emailChangeBtn.style.display = '';
+        forgotGroup.classList.remove('login-reveal--visible');
+        forgotCancelBtn.style.display = 'none';
+        passwordGroup.classList.add('login-reveal--visible');
+        loginBtn.textContent = 'Einloggen';
+        loginState = 'password';
+        setError('');
+        updateBtn();
+        setTimeout(() => passwordEl.focus(), 300);
+    }
+
+    function showSetPasswordStep() {
+        usernameEl.readOnly = true;
+        emailChangeBtn.style.display = '';
+        passwordGroup.classList.remove('login-reveal--visible');
+        spGroup.classList.add('login-reveal--visible');
+        loginBtn.textContent = 'Passwort festlegen';
+        loginState = 'set-password';
+        updateBtn();
+        setTimeout(() => spPwEl.focus(), 300);
+    }
+
+    function showForgotStep() {
+        usernameWrapper.style.display = 'none';
+        passwordGroup.classList.remove('login-reveal--visible');
+        forgotGroup.classList.add('login-reveal--visible');
+        forgotEmailEl.value = usernameEl.value.includes('@') ? usernameEl.value.trim() : '';
+        forgotEmailEl.style.display = '';
+        loginBtn.textContent = 'Link senden';
+        loginBtn.style.display = '';
+        forgotCancelBtn.style.display = '';
+        loginState = 'forgot';
+        setError('');
+        updateBtn();
+        setTimeout(() => forgotEmailEl.focus(), 300);
+    }
+
+    function resetToEmailStep() {
+        loginState = 'email';
+        usernameEl.readOnly = false;
+        usernameWrapper.style.display = '';
+        usernameEl.value = '';
+        passwordEl.value = '';
+        spPwEl.value = '';
+        spPwCfEl.value = '';
+        forgotEmailEl.value = '';
+        forgotEmailEl.style.display = '';
+        forgotInfoEl.textContent = forgotInfoDefault;
+        emailChangeBtn.style.display = 'none';
+        passwordGroup.classList.remove('login-reveal--visible');
+        spGroup.classList.remove('login-reveal--visible');
+        forgotGroup.classList.remove('login-reveal--visible');
+        forgotCancelBtn.style.display = 'none';
+        loginBtn.textContent = 'Weiter';
+        loginBtn.style.display = '';
+        backToLoginLink.style.display = 'none';
+        setError('');
+        updateBtn();
+        usernameEl.focus();
+    }
+
+    emailChangeBtn.addEventListener('click', resetToEmailStep);
+    backToLoginLink.addEventListener('click', e => { e.preventDefault(); resetToEmailStep(); });
+    forgotPwLink.addEventListener('click', e => { e.preventDefault(); showForgotStep(); });
+    forgotCancelBtn.addEventListener('click', showPasswordStep);
+
+    document.getElementById('loginForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        setError('');
+        loginBtn.disabled = true;
+
+        if (loginState === 'email') {
+            const resp = await fetch('/check-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: usernameEl.value.trim() }),
+            });
+            const data = await resp.json();
+            loginBtn.disabled = false;
+            if (data.status === 'needs_password') {
+                showSetPasswordStep();
+            } else {
+                showPasswordStep();
+            }
+
+        } else if (loginState === 'password') {
+            const resp = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: usernameEl.value.trim(), password: passwordEl.value }),
+                credentials: 'include',
+            });
+            const data = await resp.json();
+            if (data.status === 'ok') {
+                window.location.href = '/dashboard';
+            } else if (data.status === 'needs_password') {
+                showSetPasswordStep();
+            } else {
+                setError('Falscher Benutzername oder Passwort.');
+                loginBtn.disabled = false;
+                passwordEl.select();
+            }
+
+        } else if (loginState === 'set-password') {
+            const resp = await fetch('/set-initial-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: usernameEl.value.trim(), password: spPwEl.value }),
+                credentials: 'include',
+            });
+            const data = await resp.json();
+            if (data.status === 'ok') {
+                window.location.href = '/dashboard';
+            } else {
+                setError('Fehler beim Speichern. Bitte versuchen Sie es erneut.');
+                loginBtn.disabled = false;
+            }
+
+        } else if (loginState === 'forgot') {
+            await fetch('/request-password-reset', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: forgotEmailEl.value.trim() }),
+            });
+            // Always show the same message, whether or not the email matched an account.
+            forgotInfoEl.textContent = 'Falls ein Konto mit dieser E-Mail-Adresse existiert, wurde ein Link zum Zurücksetzen des Passworts gesendet. Bitte prüfen Sie Ihr Postfach.';
+            forgotEmailEl.style.display = 'none';
+            loginBtn.style.display = 'none';
+            forgotCancelBtn.style.display = 'none';
+            backToLoginLink.style.display = 'flex';
+            loginState = 'forgot-sent';
+        }
+    });
+</script>
+</body>
+</html>

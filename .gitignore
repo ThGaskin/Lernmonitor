@@ -1,0 +1,10 @@
+.DS_Store
+.idea
+__pycache__
+.venv
+.env
+.claude
+public/.htaccess
+*.db
+*.sqlite
+*.key

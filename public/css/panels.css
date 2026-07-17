@@ -1,0 +1,648 @@
+/* Border radius definitions */
+:root {
+}
+
+/* ── Page entry animation (used on all dashboards) ───────────────────────── */
+@keyframes panel-appear {
+    from {
+        opacity: 0;
+        transform: scale(0.97) translateY(8px);
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.card-section:nth-child(1) {
+    animation: panel-appear 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+}
+.card-section:nth-child(2) {
+    animation: panel-appear 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both;
+}
+.card-section:nth-child(3) {
+    animation: panel-appear 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+}
+
+/* Light blur  */
+.blur-sm {
+    background: color-mix(in srgb, var(--c-white) 20%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+/* Strong blur  */
+.blur-lg {
+    background: color-mix(in srgb, var(--c-white) 50%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+/* Background gradient */
+.bg-gradient{
+    background: var(--bg-gradient);
+}
+
+/* Light shadow  */
+.shadow-sm {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Standard card ─────────────────────────────────────────────────────── */
+
+.card-section {
+    border-radius: var(--border-radius-lg);
+    padding: 24px;
+    margin-bottom: 32px;
+}
+
+.card-header{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-section h2 {
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-section h2 img,
+.card-section h2 svg {
+    flex-shrink: 0;
+    width: auto;
+    height: 20px !important;
+}
+
+.card-section-intro {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 8px 0 20px;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.card-section-intro a {
+    color: white;
+    font-weight: 600;
+}
+
+.card-section .form-field label {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.card-section .form-field input,
+.card-section .form-field select,
+.card-section .form-field-dropdown {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-color: rgba(255, 255, 255, 0.4);
+    height: 38px;
+    box-sizing: border-box;
+}
+
+.card-section .form-error,
+.manage-list.page-box .form-error {
+    background-color: var(--c-red);
+    padding: 0.5rem;
+    border-radius: var(--border-radius-sm);
+    color: var(--c-white);
+}
+
+.card-section .form-success {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 800;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Adding people to lists */
+.add-panel-wrapper {
+    /*background: none;*/
+}
+
+.add-panel-wrapper .card-section {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    /*box-shadow: none;*/
+    /*border-radius: 8px;*/
+}
+
+/* ── Profile sidebar ─────────────────────────────────────────────────────── */
+/* This is used on the teacher and student dashboards. On small screens,
+ * the panel moves to the top of the screen; on larger screens, it sits next
+ */
+.profile-sidebar {
+    position: sticky;
+    top: 24px;
+    align-self: flex-start;
+    flex: 0 1 260px;
+    min-width: 0;
+    /*min-height: calc(60vh - 48px);*/
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    animation: panel-appear 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    border-radius: var(--border-radius-lg);
+}
+
+.profile-sidebar--wide {
+    width: 260px;
+}
+
+.profile-card-name {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 6px;
+    line-height: 1.15;
+}
+
+.profile-greeting {
+    opacity: 0.65;
+}
+
+.profile-card-email {
+    margin: 0 0 16px;
+    word-break: break-all;
+}
+
+.profile-card-badges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.profile-badge {
+    border-radius: var(--border-radius-lg);
+    padding: 4px 12px;
+}
+
+.profile-room-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    /*border-top: 1px solid var(--c-lightgrey);*/
+    padding-top: 20px;
+    /*margin-bottom: 25px;*/
+}
+
+.profile-room-label {
+    text-transform: uppercase;
+    color: var(--c-mediumgrey);
+}
+
+ #subject-tags #addSubjectBtn {
+     width: 1.4rem;
+    height: 1.4rem;
+ }
+
+  #subject-tags #addSubjectBtn img {
+    width: 0.8rem !important;
+    height: 0.8rem !important;
+      color: var(--c-mediumgrey);
+ }
+
+
+/*Sidebar footer */
+.profile-sidebar-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 20px;
+    /*border-top: 1px solid var(--c-lightgrey);*/
+}
+
+/* Sidebar buttons */
+.profile-sidebar-btn {
+    white-space: nowrap;
+}
+
+/* Sidebar logo styling */
+/* TODO: move to icons.css */
+.profile-sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    margin-top: 12px;
+    opacity: 1;
+    transition: opacity 0.15s;
+}
+
+.profile-sidebar-brand img {
+    height: 40px;
+    width: auto;
+}
+
+.profile-sidebar-brand span {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--c-darkgrey);
+    letter-spacing: -0.01em;
+}
+
+/* Admin controls in the sidebar */
+.profile-sidebar-admin {
+    /*background: red;*/
+}
+
+/* Main dashboard panel */
+.dashboard-main-panel {
+    flex: 1 1 auto;
+    max-width: 640px;
+    min-width: 0;
+    padding: 0 0 32px;
+}
+
+/* ── Lerngruppen collapsible panels (teacher dashboard) ─────────────── */
+
+/* Single panel */
+.lg-panel {
+    border: 1px solid var(--c-mediumgrey);
+    color: var(--c-mediumgrey);
+    background: var(--c-white);
+    border-radius: var(--border-radius-md);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+/* Panel toggle, containing name and button */
+.lg-panel-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    color: var(--c-mediumgrey);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0;
+    text-align: left;
+}
+
+.lg-panel-toggle:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Dash between class and subject */
+.lg-sep {
+    opacity: 0.5;
+}
+
+/* Panel toggle chevron */
+.lg-chevron-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--c-mediumgrey) 20%, transparent);
+    flex-shrink: 0;
+    transition: background 0.15s, transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lg-panel-toggle:hover .lg-chevron-btn {
+    background: color-mix(in srgb, var(--c-mediumgrey) 40%, transparent);
+}
+
+.lg-chevron-btn--open {
+    transform: rotate(180deg);
+}
+
+.lg-chevron {
+    width: 18px;
+    height: 18px;
+    filter: invert(1);
+    display: block;
+}
+
+.lg-panel-body {
+    padding: 0 16px;
+}
+
+
+/* ── Benachrichtigungen  ───────────────────────────────────────────── */
+
+.bn-section-header{
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.bn-section-title, .bn-section-subtitle {
+    margin-bottom: 0.25rem;
+}
+
+.bn-section-header:first-child {
+    margin-top: 1rem;
+}
+
+.bn-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 11px;
+    background: var(--c-red);
+    color: var(--c-white);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.bn-flag--yes {
+    display: inline-block;
+    color: #7effa0;
+    font-weight: 700;
+}
+
+.bn-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.bn-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-radius: var(--border-radius-md);
+    padding: 0.8rem;
+}
+
+.bn-item-help {
+    background: var(--c-orange);
+}
+
+.bn-item-submitted {
+    background: var(--c-mint);
+}
+
+.bn-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.bn-item-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--c-white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bn-item-sub {
+    font-size: 0.82rem;
+    color: color-mix(in srgb, var(--c-white) 60%, transparent);
+}
+
+.bn-item-help .bn-item-sub  {
+    color: color-mix(in srgb, var(--c-white) 80%, transparent);
+}
+
+.bn-actions {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.bn-action-btn {
+    background: color-mix(in srgb, var(--c-mediumgrey) 25%, transparent);
+    color: var(--c-white);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.bn-action-btn:hover {
+    background: color-mix(in srgb, var(--c-mediumgrey) 50%, transparent);
+}
+
+.bn-action-btn--confirm {
+    background: color-mix(in srgb, var(--c-peach) 60%, transparent);
+}
+
+.bn-action-btn--confirm:hover {
+    background: color-mix(in srgb, var(--c-peach) 85%, transparent);
+}
+
+/* ── Aufgabensets erstellen  ───────────────────────────────────────────── */
+
+/* Styling for the entire set of tasks */
+.lg-tasksets-list{}
+
+/* Styling for the taskset name */
+.lg-taskset-info {
+    flex: 1;
+}
+
+/* Styling for empty list */
+.lg-empty {
+    color: var(--c-mediumgrey) !important;
+}
+
+/* Activated task turns green */
+.lg-panel.lg-active-task {
+    background: var(--c-mint) !important;
+}
+
+/* Activate/deactivate/edit buttons (use bn-action-btn styling, but can be modified here)*/
+.lg-btn-activate{}
+.lg-btn-activate:hover {}
+.lg-btn-deactivate{}
+.lg-btn-deactivate:hover{}
+.lg-btn-edit {}
+.lg-btn-edit:hover {}
+
+/* ── Aufgabensets bearbeiten  ───────────────────────────────────────────── */
+/* Editing the taskset */
+.lg-taskset-row--editing {
+    flex-wrap: wrap;
+}
+
+/* Input fields */
+.lg-edit-input {
+    flex: 1;
+}
+
+.lg-edit-points {
+    flex: 0 1 80px;
+    min-width: 0;
+}
+
+.lg-btn-group {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* Save and cancellation buttons: use defaults but can be styled here */
+.lg-cancel-btn {}
+.lg-cancel-btn:hover {}
+.lg-save-btn {
+    background: var(--c-confirm);
+    color: white;
+}
+.lg-save-btn:hover:not(:disabled) {
+    background: var(--c-confirm-hover) !important;
+}
+
+
+/* ── Aufgabensets hinzufuegen  ───────────────────────────────────────────── */
+/* "Add" toggle button outer div */
+.lg-add-area {}
+
+/* "Add" toggle button inner div: needs overflow to hide the creation panel */
+.lg-add-trigger {
+    overflow: hidden;
+}
+.lg-add-trigger-inner {}
+.lg-add-trigger-inner:hover {}
+
+
+/* Inline create form — grid child, must have no padding so 0fr collapses fully */
+.lg-create-form {
+    overflow: hidden;
+    min-height: 0;
+}
+.lg-form-inner {
+    flex-wrap: wrap;
+}
+
+/* Setting the name and points on a new taskset */
+.input-box.lg-taskset-name {
+    flex: 1;
+}
+.input-box.lg-taskset-points {
+    width: 80px;
+}
+
+.lg-create-error {
+    color: var(--c-red);
+    font-size: 0.9rem;
+    width: 100%;
+    margin: 0;
+}
+
+.lg-create-error::before {
+    content: 'Fehler: ';
+    font-weight: 700;
+}
+
+
+/*.lg-activate-btn, .lg-deactivate-btn {*/
+/*    padding: 8px 18px;*/
+/*    border-radius: 8px;*/
+/*    border: none;*/
+/*    cursor: pointer;*/
+/*    font-size: 0.9rem;*/
+/*    font-weight: 600;*/
+/*    white-space: nowrap;*/
+/*    flex-shrink: 0;*/
+/*    transition: background 0.15s;*/
+/*}*/
+
+/*.lg-activate-btn {*/
+/*    background: rgba(80, 220, 120, 0.35);*/
+/*    color: #c8ffe0;*/
+/*}*/
+
+/*.lg-activate-btn:hover {*/
+/*    background: rgba(80, 220, 120, 0.55);*/
+/*}*/
+
+/*.lg-deactivate-btn {*/
+/*    background: rgba(255, 255, 255, 0.2);*/
+/*    color: rgba(255, 255, 255, 0.85);*/
+/*}*/
+
+/*.lg-deactivate-btn:hover {*/
+/*    background: rgba(255, 255, 255, 0.32);*/
+/*}*/
+
+
+
+/* ── Responsive layout ──────────────────────────────────────────────────── */
+
+@media (max-width: 700px) {
+    .lg-taskset-row--editing .lg-edit-passfail { order: 2; }
+    .lg-taskset-row--editing .lg-btn-group     { order: 3; }
+
+    .profile-sidebar {
+        position: static;
+        flex: none;
+        width: 100%;
+        min-height: auto;
+        align-self: stretch;
+        box-sizing: border-box;
+    }
+
+    .dashboard-main-panel {
+        flex: none;
+        width: 100%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 950px) {
+    #teacher-dashboard .profile-sidebar {
+        position: static;
+        flex: none;
+        width: 100%;
+        max-width: 800px;
+        min-height: auto;
+        align-self: stretch;
+        box-sizing: border-box;
+    }
+
+    #teacher-dashboard .dashboard-main-panel {
+        flex: none;
+        width: 100%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .card-section {
+        padding: 16px;
+        border-radius: var(--border-radius-md);
+        margin-bottom: 16px;
+    }
+}
+
+.lg-trigger-sleeve, .lg-form-sleeve {
+    display: grid;
+    transition: grid-template-rows 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lg-trigger-sleeve {
+    grid-template-rows: 1fr;
+}
+
+.lg-trigger-sleeve--hidden {
+    grid-template-rows: 0fr;
+}
+
+.lg-form-sleeve {
+    grid-template-rows: 0fr;
+}
+
+.lg-form-sleeve--open {
+    grid-template-rows: 1fr;
+}
+
+
+
