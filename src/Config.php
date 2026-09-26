@@ -14,7 +14,7 @@ declare(strict_types=1);
  */
 class Config
 {
-    const ASSET_VERSION = '1.0.0-beta.1';
+    const ASSET_VERSION = '1.0.0-beta.2';
 
     public static function asset(string $path): string
     {
