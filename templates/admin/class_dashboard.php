@@ -724,7 +724,15 @@ function switchMatrixTab(tab) {
     document.getElementById('matrixDesc').textContent = isFach
         ? 'Lernfortschritt aller Schüler nach Fach und Aufgabenset.'
         : 'Aktuelle Aufgaben und Raum aller Schüler nach Fach.';
+
+    // Teachers: remember the chosen overview tab for this login session, so it
+    // survives navigating away and back, just like the class choice.
+    if (window.classDashboardConfig?.viewerRole === 'teacher') {
+        try { sessionStorage.setItem(MATRIX_TAB_MEMORY_KEY, tab); } catch (e) { /* storage unavailable */ }
+    }
 }
+
+const MATRIX_TAB_MEMORY_KEY = 'teacherLastMatrixTab';
 
 // ---------------------------------------------------------------------------
 // Student table (admin: firstName/lastName/email; teacher: name only)
@@ -816,11 +824,29 @@ function renderStudentTable(students, viewerRole) {
     const params  = new URLSearchParams(location.search);
     let classId   = params.get('id') ?? '';
 
+    // Teachers: remember the last class viewed for this login session, so that
+    // moving back and forth between the dashboard and the Klassenübersicht keeps
+    // the chosen class instead of resetting to the first one in the list.
+    const CLASS_MEMORY_KEY = 'teacherLastClassId';
+    const rememberClass    = viewerRole === 'teacher';
+
+    if (!classId && rememberClass) {
+        let stored = null;
+        try { stored = sessionStorage.getItem(CLASS_MEMORY_KEY); } catch (e) { /* storage unavailable */ }
+        if (stored && allClasses.some(c => c.id == stored)) {
+            classId = stored;
+        }
+    }
+
     if (!classId && allClasses.length > 0) {
         classId = allClasses[0].id;
-        history.replaceState(null, '', `/class-dashboard?id=${classId}`);
     }
     if (!classId) return;
+
+    if (rememberClass) {
+        try { sessionStorage.setItem(CLASS_MEMORY_KEY, String(classId)); } catch (e) { /* storage unavailable */ }
+    }
+    history.replaceState(null, '', `/class-dashboard?id=${classId}`);
 
     // Teacher class-switcher dropdown on the class name
     if (viewerRole === 'teacher') {
@@ -899,6 +925,13 @@ function renderStudentTable(students, viewerRole) {
     renderStudentOverview(matrix, rooms);
     document.getElementById('tabFach').addEventListener('click',     () => switchMatrixTab('fach'));
     document.getElementById('tabSchueler').addEventListener('click', () => switchMatrixTab('schueler'));
+
+    // Teachers: restore the overview tab chosen earlier this session.
+    if (rememberClass) {
+        let storedTab = null;
+        try { storedTab = sessionStorage.getItem(MATRIX_TAB_MEMORY_KEY); } catch (e) { /* storage unavailable */ }
+        if (storedTab === 'schueler') switchMatrixTab('schueler');
+    }
 
     const classStudents = viewerRole === 'admin'
         ? students.filter(s => s.classId == classId)

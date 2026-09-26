@@ -827,7 +827,20 @@ function initMyStudentsTable(students) {
 
     const LEVELS    = window.graduationConfig?.levels ?? ['Neustarter', 'Starter', 'Durchstarter', 'Lernprofi'];
     const PAGE_SIZE = 10;
+    // Teacher's own dashboard: remember the student-list page for this login
+    // session, so returning from a student profile stays on the same page.
+    const PAGE_MEMORY_KEY = 'teacherStudentListPage';
     let currentPage = 1;
+    if (isOwn) {
+        try {
+            const stored = parseInt(sessionStorage.getItem(PAGE_MEMORY_KEY), 10);
+            if (stored > 0) currentPage = stored;
+        } catch (e) { /* storage unavailable */ }
+    }
+    function savePage() {
+        if (!isOwn) return;
+        try { sessionStorage.setItem(PAGE_MEMORY_KEY, String(currentPage)); } catch (e) { /* storage unavailable */ }
+    }
 
     const classLabels  = [...new Set(students.map(s => s.classLabel))].sort();
     const classOptions = [{ value: '', label: 'Alle Klassen' }, ...classLabels.map(l => ({ value: l, label: l }))];
@@ -892,6 +905,7 @@ function initMyStudentsTable(students) {
         const filtered   = getFiltered();
         const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
         if (currentPage > totalPages) currentPage = totalPages;
+        savePage();
         const page = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
         tbody.innerHTML = '';
         page.forEach(s => {
@@ -910,10 +924,10 @@ function initMyStudentsTable(students) {
             tbody.appendChild(tr);
         });
         renderPagination('myStudentPagination', totalPages, filtered.length, currentPage,
-            p => { currentPage = p; render(); }, 'Schüler');
+            p => { currentPage = p; savePage(); render(); }, 'Schüler');
     }
 
-    function resetAndRender() { currentPage = 1; render(); }
+    function resetAndRender() { currentPage = 1; savePage(); render(); }
     if (searchEl) searchEl.addEventListener('input', resetAndRender);
     render();
 }
