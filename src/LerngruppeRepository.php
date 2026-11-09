@@ -1098,8 +1098,10 @@ class LerngruppeRepository
     /**
      * Records the achieved points for a submitted task set.
      * Only the owning teacher may set scores.
+     * Returns false if not authorised / points out of range, null if the task set
+     * is no longer submitted (status changed in the meantime).
      */
-    public function setAchievedPoints(int $teacherId, int $studentId, int $taskSetId, int $points): bool
+    public function setAchievedPoints(int $teacherId, int $studentId, int $taskSetId, int $points): ?bool
     {
         $taskSet = $this->db->fetch(
             'SELECT ts.max_points FROM lg_tasksets ts
@@ -1121,13 +1123,16 @@ class LerngruppeRepository
         $this->db->execute(
             'UPDATE lg_taskset_status
              SET achieved_points = ?, scored_at = NOW()
-             WHERE student_id = ? AND taskset_id = ?',
+             WHERE student_id = ? AND taskset_id = ? AND status = 2',
             [$points, $studentId, $taskSetId]
         );
-        return true;
+        return $this->isSubmitted($studentId, $taskSetId) ? true : null;
     }
 
-    public function adminSetAchievedPoints(int $studentId, int $taskSetId, ?int $points): bool
+    /**
+     * Returns false on invalid points, null if the task set is no longer submitted.
+     */
+    public function adminSetAchievedPoints(int $studentId, int $taskSetId, ?int $points): ?bool
     {
         $taskSet = $this->db->fetch(
             'SELECT max_points, is_pass_fail FROM lg_tasksets WHERE id = ?',
@@ -1141,17 +1146,26 @@ class LerngruppeRepository
         if ($points === null) {
             $this->db->execute(
                 'UPDATE lg_taskset_status SET achieved_points = NULL, scored_at = NULL
-                 WHERE student_id = ? AND taskset_id = ?',
+                 WHERE student_id = ? AND taskset_id = ? AND status = 2',
                 [$studentId, $taskSetId]
             );
         } else {
             $this->db->execute(
                 'UPDATE lg_taskset_status SET achieved_points = ?, scored_at = NOW()
-                 WHERE student_id = ? AND taskset_id = ?',
+                 WHERE student_id = ? AND taskset_id = ? AND status = 2',
                 [$points, $studentId, $taskSetId]
             );
         }
-        return true;
+        return $this->isSubmitted($studentId, $taskSetId) ? true : null;
+    }
+
+    /** Points may only be stored on submitted (status 2) rows. */
+    private function isSubmitted(int $studentId, int $taskSetId): bool
+    {
+        return (bool)$this->db->fetch(
+            'SELECT 1 FROM lg_taskset_status WHERE student_id = ? AND taskset_id = ? AND status = 2',
+            [$studentId, $taskSetId]
+        );
     }
 
     // -----------------------------------------------------------------------
@@ -1190,8 +1204,9 @@ class LerngruppeRepository
     /**
      * Sets a student's status for an Aufgabenset.
      * status 0 clears the row; 1 = in progress, 2 = submitted.
+     * Returns false if not authorised, null if refused because the task set is graded.
      */
-    public function setTaskSetStatusAsTeacher(int $teacherId, int $studentId, int $taskSetId, int $status): bool
+    public function setTaskSetStatusAsTeacher(int $teacherId, int $studentId, int $taskSetId, int $status): ?bool
     {
         $ok = $this->db->fetch(
             'SELECT 1 FROM lg_tasksets ts
@@ -1208,23 +1223,32 @@ class LerngruppeRepository
             [$taskSetId, $teacherId, $teacherId]
         );
         if (!$ok) return false;
-        $this->setTaskSetStatus($studentId, $taskSetId, $status);
-        return true;
+        return $this->setTaskSetStatus($studentId, $taskSetId, $status) ? true : null;
     }
 
-    public function setTaskSetStatus(int $studentId, int $taskSetId, int $status): void
+    /**
+     * Sets the status (0 clears the row). The status of a graded task set cannot
+     * be changed: returns false and leaves the row untouched in that case.
+     */
+    public function setTaskSetStatus(int $studentId, int $taskSetId, int $status): bool
     {
         if ($status === 0) {
             $this->db->execute(
-                'DELETE FROM lg_taskset_status WHERE student_id = ? AND taskset_id = ?',
+                'DELETE FROM lg_taskset_status
+                 WHERE student_id = ? AND taskset_id = ? AND achieved_points IS NULL',
                 [$studentId, $taskSetId]
             );
         } else {
             $this->db->execute(
                 'INSERT INTO lg_taskset_status (student_id, taskset_id, status) VALUES (?, ?, ?)
-                 ON DUPLICATE KEY UPDATE status = VALUES(status)',
+                 ON DUPLICATE KEY UPDATE status = IF(achieved_points IS NULL, VALUES(status), status)',
                 [$studentId, $taskSetId, $status]
             );
         }
+        $row = $this->db->fetch(
+            'SELECT status FROM lg_taskset_status WHERE student_id = ? AND taskset_id = ?',
+            [$studentId, $taskSetId]
+        );
+        return ($row ? (int)$row['status'] : 0) === $status;
     }
 }

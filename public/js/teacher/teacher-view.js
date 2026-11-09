@@ -170,6 +170,7 @@ function buildLerngruppenBadges(lerngruppen) {
 // ---------------------------------------------------------------------------
 
 const renderedItemKeys = new Set();
+const itemRemovers     = new Map(); // key → function that removes the rendered entry
 const panelControllers = new Map();
 
 function buildBenachrichtigungenSection(lerngruppen, animate = false) {
@@ -180,10 +181,12 @@ function buildBenachrichtigungenSection(lerngruppen, animate = false) {
     const withNotifications = lerngruppen.filter(
         lg => lg.submissions.length > 0 || (lg.helpRequests?.length ?? 0) > 0
     );
+    const freshKeys = new Set();
 
     withNotifications.forEach(lg => {
         const lgKey = `${lg.classId}-${lg.subjectId}`;
-        if (!panelControllers.has(lgKey)) {
+        // A panel removes itself once empty; build a fresh one if new entries arrive.
+        if (!panelControllers.get(lgKey)?.panel.isConnected) {
             const ctrl = createBenachrichtigungPanel(lg);
             panelControllers.set(lgKey, ctrl);
             listEl.appendChild(ctrl.panel);
@@ -200,13 +203,25 @@ function buildBenachrichtigungenSection(lerngruppen, animate = false) {
         const ctrl = panelControllers.get(lgKey);
         lg.submissions.forEach(s => {
             const key = `sub-${s.studentId}-${s.taskSetId}`;
-            if (!renderedItemKeys.has(key)) { renderedItemKeys.add(key); ctrl.addSubmission(s, animate); }
+            freshKeys.add(key);
+            if (!renderedItemKeys.has(key)) { renderedItemKeys.add(key); itemRemovers.set(key, ctrl.addSubmission(s, animate)); }
         });
         (lg.helpRequests ?? []).forEach(h => {
             const key = `help-${h.studentId}-${h.taskSetId}`;
-            if (!renderedItemKeys.has(key)) { renderedItemKeys.add(key); ctrl.addHelpRequest(h, animate); }
+            freshKeys.add(key);
+            if (!renderedItemKeys.has(key)) { renderedItemKeys.add(key); itemRemovers.set(key, ctrl.addHelpRequest(h, animate)); }
         });
     });
+
+    // Remove entries the server no longer reports (e.g. the student changed the
+    // status since the page loaded), so stale submissions can't be graded.
+    for (const [key, remove] of itemRemovers) {
+        if (!freshKeys.has(key)) {
+            remove();
+            itemRemovers.delete(key);
+            renderedItemKeys.delete(key);
+        }
+    }
 
     if (hint) hint.style.display = listEl.hasChildNodes() ? 'none' : '';
 }
@@ -296,7 +311,8 @@ function createBenachrichtigungPanel(lg) {
 
         const actions     = document.createElement('div');
         actions.className = 'bn-actions';
-        function removeItem() { item.remove(); decrementBadge(); }
+        let removed = false;
+        function removeItem() { if (removed) return; removed = true; item.remove(); decrementBadge(); }
 
         const bewertenBtn     = document.createElement('button');
         bewertenBtn.className = 'btn-s bn-action-btn';
@@ -361,6 +377,7 @@ function createBenachrichtigungPanel(lg) {
         list.appendChild(item);
         if (animate) animateItemIn(item);
         incrementBadge();
+        return removeItem;
     }
 
     function addHelpRequest(h, animate = false) {
@@ -376,12 +393,14 @@ function createBenachrichtigungPanel(lg) {
             `<span class="bn-item-sub">${h.taskSetName}${roomText}</span>`;
         const actions  = document.createElement('div');
         actions.className = 'bn-actions';
+        let removed = false;
+        function removeItem() { if (removed) return; removed = true; item.remove(); decrementBadge(); }
         const ackBtn   = document.createElement('button');
         ackBtn.className  = 'btn-s bn-action-btn bn-action-btn--confirm';
         ackBtn.textContent = 'Bestätigen';
         ackBtn.addEventListener('click', async () => {
             const resp = await post('/lg-taskset-status-teacher', { studentId: h.studentId, taskSetId: h.taskSetId, status: 1 });
-            if (resp.ok) { item.remove(); decrementBadge(); }
+            if (resp.ok) removeItem();
         });
         actions.appendChild(ackBtn);
         item.appendChild(info);
@@ -389,6 +408,7 @@ function createBenachrichtigungPanel(lg) {
         list.appendChild(item);
         if (animate) animateItemIn(item);
         incrementBadge();
+        return removeItem;
     }
 
     const EASING = 'cubic-bezier(0.4,0,0.2,1)', DURATION = '0.3s';
