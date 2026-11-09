@@ -717,6 +717,7 @@ $router->post('/lg-taskset-status-teacher', function (Request $req) {
     $taskSetId = (int)($body['taskSetId'] ?? 0);
     $status    = (int)($body['status']    ?? 0);
     $ok = (new LerngruppeRepository(db()))->setTaskSetStatusAsTeacher($teacherId, $studentId, $taskSetId, $status);
+    if ($ok === null) { Response::json(['error' => 'Der Status hat sich inzwischen geändert. Bitte laden Sie die Seite neu.'], 409); return; }
     if (!$ok) { Response::json(['error' => 'Nicht autorisiert.'], 403); return; }
     Response::json(['ok' => true]);
 });
@@ -747,6 +748,7 @@ $router->post('/lg-set-score', function (Request $req) {
         Response::json(['error' => 'Fehlende Parameter.'], 400); return;
     }
     $ok = (new LerngruppeRepository(db()))->setAchievedPoints($teacherId, $studentId, $taskSetId, $achievedPoints);
+    if ($ok === null) { Response::json(['error' => 'Der Status hat sich inzwischen geändert. Bitte laden Sie die Seite neu.'], 409); return; }
     $ok ? Response::json(['ok' => true]) : Response::json(['error' => 'Nicht autorisiert.'], 403);
 });
 
@@ -762,6 +764,7 @@ $router->post('/admin/set-student-score', function (Request $req) {
         Response::json(['error' => 'Fehlende Parameter.'], 400); return;
     }
     $ok = (new LerngruppeRepository(db()))->adminSetAchievedPoints($studentId, $taskSetId, $points);
+    if ($ok === null) { Response::json(['error' => 'Der Status hat sich inzwischen geändert. Bitte laden Sie die Seite neu.'], 409); return; }
     $ok ? Response::json(['ok' => true]) : Response::json(['error' => 'Ungültige Punkte.'], 400);
 });
 
@@ -775,7 +778,9 @@ $router->post('/admin/set-student-task-status', function (Request $req) {
     if ($studentId <= 0 || $taskSetId <= 0 || $status < 0 || $status > 4) {
         Response::json(['error' => 'Fehlende Parameter.'], 400); return;
     }
-    (new LerngruppeRepository(db()))->setTaskSetStatus($studentId, $taskSetId, $status);
+    if (!(new LerngruppeRepository(db()))->setTaskSetStatus($studentId, $taskSetId, $status)) {
+        Response::json(['error' => 'Der Status hat sich inzwischen geändert. Bitte laden Sie die Seite neu.'], 409); return;
+    }
     Response::json(['ok' => true]);
 });
 
@@ -790,7 +795,9 @@ $router->post('/lg-taskset-status', function (Request $req) {
         Response::json(['error' => 'Fehlende oder ungültige Parameter.'], 400);
         return;
     }
-    (new LerngruppeRepository(db()))->setTaskSetStatus($studentId, $taskSetId, $status);
+    if (!(new LerngruppeRepository(db()))->setTaskSetStatus($studentId, $taskSetId, $status)) {
+        Response::json(['error' => 'Der Status hat sich inzwischen geändert. Bitte laden Sie die Seite neu.'], 409); return;
+    }
     Response::json(['ok' => true]);
 });
 
